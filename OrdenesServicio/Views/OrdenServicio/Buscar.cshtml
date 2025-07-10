@@ -1,0 +1,181 @@
+﻿@model ZOE.OrdenesServicio.Model.OrdenServicio.OrdenServicioBuscarViewModel
+
+ @using Infragistics.Web.Mvc
+
+@{
+    ViewBag.Title = " ";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<h2>Buscar Orden de Servicio</h2>
+
+ <script type="text/javascript">
+
+     $('#Tipo').live('change', function () {
+         var rbTipoValor = $("input:radio[name='Tipo']:checked").val();
+
+         switch (rbTipoValor) {
+             case "1":
+                 $("div#divTicket").show();
+                 $("div#divDescr").hide();
+                 $("div#divCliente").hide();
+                 $("div#divAsesor").hide();
+                 $("div#divFecIni").hide();
+                 $("div#divFecFin").hide();
+                 $("div#divStatus").hide();
+                 break;
+             case "2":
+                 $("div#divTicket").hide();
+                 $("div#divDescr").show();
+                 $("div#divCliente").hide();
+                 $("div#divAsesor").hide();
+                 $("div#divFecIni").hide();
+                 $("div#divFecFin").hide();
+                 $("div#divStatus").hide();
+                 break;
+             case "3":
+                 $("div#divTicket").hide();
+                 $("div#divDescr").hide();
+                 $("div#divCliente").show();
+                 $("div#divAsesor").hide();
+                 $("div#divFecIni").hide();
+                 $("div#divFecFin").hide();
+                 $("div#divStatus").hide();
+                 break;
+             case "4":
+                 $("div#divTicket").hide();
+                 $("div#divDescr").hide();
+                 $("div#divCliente").hide();
+                 $("div#divAsesor").show();
+                 $("div#divFecIni").hide();
+                 $("div#divFecFin").hide();
+                 $("div#divStatus").hide();
+                 break;
+             case "5":
+                 $("div#divTicket").hide();
+                 $("div#divDescr").hide();
+                 $("div#divCliente").hide();
+                 $("div#divAsesor").hide();
+                 $("div#divFecIni").show();
+                 $("div#divFecFin").show();
+                 $("div#divStatus").hide();
+                 break;
+             case "6":
+                 $("div#divTicket").hide();
+                 $("div#divDescr").hide();
+                 $("div#divCliente").hide();
+                 $("div#divAsesor").hide();
+                 $("div#divFecIni").hide();
+                 $("div#divFecFin").hide();
+                 $("div#divStatus").show();
+                 break; default:
+
+         }
+         return;
+     });
+
+    $(function () {
+        $("#buscar")
+        .button()
+        .click(function () {
+        });
+    });
+
+ </script>
+ 
+  <h3>Criterios de busqueda</h3>
+  <div>    
+   @using (Html.BeginForm("EjecutarBusqueda", "OrdenServicio")) 
+   {
+        @Html.ValidationSummary(true)
+        <div class="editor-field">
+            @Html.RadioButtonFor(model => model.Tipo, "1", new { @checked = "checked" }) <label>Número de Ticket</label>
+
+            <div class="editor-field" id="divTicket">
+                @Html.EditorFor(model => model.Ticket)
+                @Html.ValidationMessageFor(model => model.Ticket)
+            </div>
+
+        </div>
+
+        <div class="editor-field">
+            @Html.RadioButtonFor(model => model.Tipo, "2") <label>Descripción</label>
+
+            <div class="editor-field" id="divDescr" style="display:none">
+                @Html.EditorFor(model => model.OrdenServicioDescr)
+                @Html.ValidationMessageFor(model => model.OrdenServicioDescr)
+            </div>
+        </div>
+    
+        <div class="editor-field">
+            @Html.RadioButtonFor(model => model.Tipo,"3") <label>Cliente/Empresa</label>
+
+            <div class="editor-field" id="divCliente" style="display:none">
+                @Html.DropDownListFor(model => model.ClienteId, Model.Clientes, "Seleccione un Cliente...")
+                @Html.ValidationMessageFor(model => model.ClienteId)
+            </div>
+        </div>
+
+        <div class="editor-field">
+            @Html.RadioButtonFor(model => model.Tipo,"4") <label>Asesor</label>
+
+            <div class="editor-field" id="divAsesor" style="display:none">
+                @Html.DropDownListFor(model => model.AsesorId, Model.Asesores, "Seleccione un Asesor...")
+                @Html.ValidationMessageFor(model => model.AsesorId)
+            </div>
+        </div>
+
+        <div class="editor-field">
+            @Html.RadioButtonFor(model => model.Tipo,"5") <label>Fecha de registro</label>
+
+            <div class="editor-field" id="divFecIni" style="display:none">
+                @Html.LabelFor(model => model.FechaInicial)
+                
+                 @*@Html.EditorFor(model => model.FechaInicial)*@
+
+                     @(Html.Infragistics().DatePickerFor(model => model.FechaInicial)
+                    .ID("dtpFechaIni")
+                    .Width(250)
+                    .DateDisplayFormat("dateTime")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Render()
+                    )                       
+
+                @Html.ValidationMessageFor(model => model.FechaInicial)
+            </div>
+    
+            <div class="editor-field" id="divFecFin" style="display:none">
+                @Html.LabelFor(model => model.FechaFinal) 
+                
+                @*@Html.EditorFor(model => model.FechaFinal)*@
+                @(Html.Infragistics().DatePickerFor(model => model.FechaFinal)
+                    .ID("dtpFechaFin")
+                    .Width(250)
+                    .DateDisplayFormat("dateTime")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Render()
+                    )                       
+
+
+                @Html.ValidationMessageFor(model => model.FechaFinal)
+            </div>
+        </div>
+    
+  
+        <div class="editor-field">
+            @Html.RadioButtonFor(model => model.Tipo, "6") <label>Estatus</label>
+
+            <div class="editor-field" id="divStatus" style="display:none">
+               @Html.DropDownListFor(model => model.StatusId, Model.Status, "Seleccione un estatus...")
+               @Html.ValidationMessageFor(model => model.StatusId)
+            </div>
+        </div>                   
+       
+        <p>
+            <input id="buscar" type="submit" value="Buscar" />
+        </p>
+  }
+</div>        

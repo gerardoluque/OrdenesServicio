@@ -1,0 +1,841 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{315C9E63-D7AD-4820-8C81-527267134B9A}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZOE.OrdenesServicio</RootNamespace>
+    <AssemblyName>OrdenesServicio</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44313</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <ExcludeApp_Data>true</ExcludeApp_Data>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+      </Objects>
+    </PublishDatabaseSettings>
+    <PublishDatabases>false</PublishDatabases>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.0.2\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics.Web.Mvc, Version=3.11.1.2010, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Infragistics.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1652.0\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.1652.0\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.3.0.50813.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.1.0.20105.408\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\SOEmailResource.es.designer.cs">
+      <DependentUpon>SOEmailResource.es.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\SOEmailResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SOEmailResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SOResource.es.designer.cs">
+      <DependentUpon>SOResource.es.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\SOResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SOResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdmonReportesController.cs" />
+    <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\AsesorController.cs" />
+    <Compile Include="Controllers\AsesorSeguimientoController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\ContactoController.cs" />
+    <Compile Include="Controllers\ContactoSeguimientoController.cs" />
+    <Compile Include="Controllers\EventoRegistroController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrdenServicioController.cs" />
+    <Compile Include="Controllers\OSStatusController.cs" />
+    <Compile Include="Controllers\ProyectoController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AccountModels.cs" />
+    <Compile Include="Model\ApplicationServices.cs" />
+    <Compile Include="Model\AsesorContacto\ContactoRegistrarViewModel.cs" />
+    <Compile Include="Model\DataContextInitializer.cs" />
+    <Compile Include="Model\OrdenServicio\ActividadCambiarStatusViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\AgregarModificarDetalleViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\OrdenServicioAsignarAsesorViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\OrdenServicioCambioAsesorViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\OrdenServicioCambioMinutosViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\OrdenServicioComentarioViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\CrearOrdenServicioViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\OrdenServicioBuscarViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\OrdenServicioCambioProyectoViewModel.cs" />
+    <Compile Include="Model\OrdenServicio\OrdenServicioHistoriaViewModel.cs" />
+    <Compile Include="Model\Reportes\Reportes.cs" />
+    <Compile Include="Negocio\Crypto.cs" />
+    <Compile Include="Negocio\OrdenServicioBC.cs" />
+    <Compile Include="Negocio\ProyectoBC.cs" />
+    <Compile Include="Negocio\ReporteBC.cs" />
+    <Compile Include="Negocio\Seguridad.cs" />
+    <Compile Include="Negocio\WebSecurity.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\RepAsesorActividadesPorDia.aspx.cs">
+      <DependentUpon>RepAsesorActividadesPorDia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorActividadesPorDia.aspx.designer.cs">
+      <DependentUpon>RepAsesorActividadesPorDia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepActividadesProyectoPorCliente.aspx.cs">
+      <DependentUpon>RepActividadesProyectoPorCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepActividadesProyectoPorCliente.aspx.designer.cs">
+      <DependentUpon>RepActividadesProyectoPorCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorHorasPorDia.aspx.cs">
+      <DependentUpon>RepAsesorHorasPorDia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorHorasPorDia.aspx.designer.cs">
+      <DependentUpon>RepAsesorHorasPorDia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorHoras.aspx.cs">
+      <DependentUpon>RepAsesorHoras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorHoras.aspx.designer.cs">
+      <DependentUpon>RepAsesorHoras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepClienteTicketsPrioridades.aspx.cs">
+      <DependentUpon>RepClienteTicketsPrioridades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepClienteTicketsPrioridades.aspx.designer.cs">
+      <DependentUpon>RepClienteTicketsPrioridades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepListadoPolizaSaldo.aspx.cs">
+      <DependentUpon>RepListadoPolizaSaldo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepListadoPolizaSaldo.aspx.designer.cs">
+      <DependentUpon>RepListadoPolizaSaldo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepOrdenesServicioPorDia.aspx.cs">
+      <DependentUpon>RepOrdenesServicioPorDia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepOrdenesServicioPorDia.aspx.designer.cs">
+      <DependentUpon>RepOrdenesServicioPorDia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepPolizaDetalleServicio.aspx.cs">
+      <DependentUpon>RepPolizaDetalleServicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepPolizaDetalleServicio.aspx.designer.cs">
+      <DependentUpon>RepPolizaDetalleServicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepPolizaDetalleServicioPorCliente.aspx.cs">
+      <DependentUpon>RepPolizaDetalleServicioPorCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepPolizaDetalleServicioPorCliente.aspx.designer.cs">
+      <DependentUpon>RepPolizaDetalleServicioPorCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorOrdenesServicio.aspx.cs">
+      <DependentUpon>RepAsesorOrdenesServicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorOrdenesServicio.aspx.designer.cs">
+      <DependentUpon>RepAsesorOrdenesServicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepProyectosPorCliente.aspx.cs">
+      <DependentUpon>RepProyectosPorCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepProyectosPorCliente.aspx.designer.cs">
+      <DependentUpon>RepProyectosPorCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorActividades.aspx.cs">
+      <DependentUpon>RepAsesorActividades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepAsesorActividades.aspx.designer.cs">
+      <DependentUpon>RepAsesorActividades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteClienteTipoServicio.aspx.cs">
+      <DependentUpon>ReporteClienteTipoServicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteClienteTipoServicio.aspx.designer.cs">
+      <DependentUpon>ReporteClienteTipoServicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\dsReportes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsReportes.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteAsesorTipoServicio.aspx.cs">
+      <DependentUpon>ReporteAsesorTipoServicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteAsesorTipoServicio.aspx.designer.cs">
+      <DependentUpon>ReporteAsesorTipoServicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepPolizaSaldoPorAgotar.aspx.cs">
+      <DependentUpon>RepPolizaSaldoPorAgotar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepPolizaSaldoPorAgotar.aspx.designer.cs">
+      <DependentUpon>RepPolizaSaldoPorAgotar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\RepTicketsDetalleMinutos.aspx.cs">
+      <DependentUpon>RepTicketsDetalleMinutos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\RepTicketsDetalleMinutos.aspx.designer.cs">
+      <DependentUpon>RepTicketsDetalleMinutos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Views\Account\AccountResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Account\AccountResource.es.Designer.cs">
+      <DependentUpon>AccountResource.es.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\Attributes\AllowAnonymousAttribute.cs" />
+    <Compile Include="Views\Filters\LocalizationAttribute.cs" />
+    <Compile Include="Views\Filters\LogonAuthorize.cs" />
+    <Compile Include="Views\Home\MenuResource.es.Designer.cs">
+      <DependentUpon>MenuResource.es.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\Home\MenuResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MenuResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\IG\base\ig.ui.coloreditor.css" />
+    <Content Include="Content\IG\base\ig.ui.css" />
+    <Content Include="Content\IG\base\ig.ui.editors.css" />
+    <Content Include="Content\IG\base\ig.ui.grid.css" />
+    <Content Include="Content\IG\base\ig.ui.min.css" />
+    <Content Include="Content\IG\base\ig.ui.rating.css" />
+    <Content Include="Content\IG\base\ig.ui.shared.css" />
+    <Content Include="Content\IG\base\ig.ui.upload.css" />
+    <Content Include="Content\IG\base\ig.ui.validator.css" />
+    <Content Include="Content\IG\base\ig.ui.videoplayer.css" />
+    <Content Include="Content\IG\base\images\expand.gif" />
+    <Content Include="Content\IG\base\images\igBigPauseButton.png" />
+    <Content Include="Content\IG\base\images\igBigPlayButton.png" />
+    <Content Include="Content\IG\base\images\igGrid\filter-icons-333333.png" />
+    <Content Include="Content\IG\base\images\igGrid\filter-icons-FFFFFF.png" />
+    <Content Include="Content\IG\base\images\igg_BottomDragIndicator.png" />
+    <Content Include="Content\IG\base\images\igg_Filter.gif" />
+    <Content Include="Content\IG\base\images\igg_FilterApplied.gif" />
+    <Content Include="Content\IG\base\images\igg_Fix.gif" />
+    <Content Include="Content\IG\base\images\igg_FixHover.gif" />
+    <Content Include="Content\IG\base\images\igg_header.gif" />
+    <Content Include="Content\IG\base\images\igg_sortAsc.gif" />
+    <Content Include="Content\IG\base\images\igg_sortDesc.gif" />
+    <Content Include="Content\IG\base\images\igg_Sprite.png" />
+    <Content Include="Content\IG\base\images\igg_Sum.gif" />
+    <Content Include="Content\IG\base\images\igg_SumHover.gif" />
+    <Content Include="Content\IG\base\images\igg_SumPressed.gif" />
+    <Content Include="Content\IG\base\images\igg_TopDragIndicator.png" />
+    <Content Include="Content\IG\base\images\igg_Unfix.gif" />
+    <Content Include="Content\IG\base\images\igg_UnfixHover.gif" />
+    <Content Include="Content\IG\base\images\igg_UnfixPressed.gif" />
+    <Content Include="Content\IG\base\images\igLoadingSmall.gif" />
+    <Content Include="Content\IG\base\images\igTooltip\igTooltipArrowBottom.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igBigPauseButton.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igBigPlayButton.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igBrowserLogos.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igLoadingSmall.gif" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igPlayButton24.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igPlayButton32.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igPlayButton48.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igVPBackground.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igVPBookmarkSprite.png" />
+    <Content Include="Content\IG\base\images\igVideoPlayer\igWarningIcon.png" />
+    <Content Include="Content\IG\base\images\trial.gif" />
+    <Content Include="Content\IG\base\images\ui-anim_basic_16x16.gif" />
+    <Content Include="Content\IG\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\IG\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\IG\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\IG\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\IG\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\IG\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\IG\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\IG\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\IG\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\IG\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\IG\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\IG\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\IG\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\IG\base\jquery-ui.css" />
+    <Content Include="Content\IG\base\jquery.ui.all.css" />
+    <Content Include="Content\IG\base\jquery.ui.base.css" />
+    <Content Include="Content\IG\base\jquery.ui.core.css" />
+    <Content Include="Content\IG\base\jquery.ui.css" />
+    <Content Include="Content\IG\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\IG\base\jquery.ui.slider.css" />
+    <Content Include="Content\IG\base\jquery.ui.theme.css" />
+    <Content Include="Content\IG\ig\images\datepicker.gif" />
+    <Content Include="Content\IG\ig\images\gradient_1.png" />
+    <Content Include="Content\IG\ig\images\gradient_2.png" />
+    <Content Include="Content\IG\ig\images\gradient_3.png" />
+    <Content Include="Content\IG\ig\images\gradient_4.png" />
+    <Content Include="Content\IG\ig\images\gradient_5.png" />
+    <Content Include="Content\IG\ig\images\gradient_6.png" />
+    <Content Include="Content\IG\ig\images\gradient_7.png" />
+    <Content Include="Content\IG\ig\images\icon_sprite.png" />
+    <Content Include="Content\IG\ig\images\igRating\ig-rating.png" />
+    <Content Include="Content\IG\ig\images\igVideoPlayer\igVideoPlayerIcons.png" />
+    <Content Include="Content\IG\ig\images\igVideoPlayer\igVPBackground.png" />
+    <Content Include="Content\IG\ig\images\igVideoPlayer\igVPBookmarkSprite.png" />
+    <Content Include="Content\IG\ig\images\progress_bar.gif" />
+    <Content Include="Content\IG\ig\images\slider_handles.png" />
+    <Content Include="Content\IG\ig\images\slider_h_bg.gif" />
+    <Content Include="Content\IG\ig\images\slider_v_bg.gif" />
+    <Content Include="Content\IG\ig\images\tab_bg.gif" />
+    <Content Include="Content\IG\ig\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\IG\ig\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\IG\ig\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\IG\ig\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\IG\ig\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\IG\ig\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\IG\ig\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\IG\ig\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\IG\ig\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\IG\ig\jquery.ui.custom.css" />
+    <Content Include="Content\Image\bg.gif" />
+    <Content Include="Content\Image\menuizq.png" />
+    <Content Include="Content\Image\top.png" />
+    <Content Include="Content\Image\zoe_logo_chico.png" />
+    <Content Include="Content\Menu\images\base-select.gif" />
+    <Content Include="Content\Menu\images\base.gif" />
+    <Content Include="Content\Menu\images\base.png" />
+    <Content Include="Content\Menu\images\base1.png" />
+    <Content Include="Content\Menu\images\lavalamp.gif" />
+    <Content Include="Content\Menu\images\pix.gif" />
+    <Content Include="Content\Menu\images\sub-select.gif" />
+    <Content Include="Content\Menu\images\sub.gif" />
+    <Content Include="Content\Menu\images\sub.png" />
+    <Content Include="Content\Menu\jquery.js" />
+    <Content Include="Content\Menu\menu.css" />
+    <Content Include="Content\Menu\menu.js" />
+    <Content Include="Content\StyleSheet1.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Elmah\Placeholder.txt" />
+    <Content Include="Global.asax" />
+    <Content Include="Reportes\RepAsesorActividadesPorDia.aspx" />
+    <Content Include="Reportes\RepActividadesProyectoPorCliente.aspx" />
+    <Content Include="Reportes\RepAsesorHoras.rdlc" />
+    <Content Include="Reportes\RepAsesorHorasPorDia.aspx" />
+    <Content Include="Reportes\RepAsesorHoras.aspx" />
+    <Content Include="Reportes\RepClienteTicketsPrioridades.aspx" />
+    <Content Include="Reportes\RepListadoPolizaSaldo.aspx" />
+    <Content Include="Reportes\RepOrdenesServicioPorDia.aspx" />
+    <Content Include="Reportes\RepPolizaDetalleServicio.aspx" />
+    <Content Include="Reportes\RepPolizaDetalleServicio.rdlc" />
+    <Content Include="Reportes\RepPolizaDetalleServicioPorCliente.aspx" />
+    <Content Include="Reportes\RepAsesorOrdenesServicio.aspx" />
+    <Content Include="Reportes\RepProyectosPorCliente.aspx" />
+    <Content Include="Reportes\RepAsesorActividades.aspx" />
+    <Content Include="Reportes\ReporteClienteTipoServicio.aspx" />
+    <Content Include="Reportes\ReporteAsesorTipoServicio.aspx" />
+    <Content Include="Reportes\RepPolizaSaldoPorAgotar.aspx" />
+    <Content Include="Reportes\RepTicketsDetalleMinutos.aspx" />
+    <Content Include="Reportes\RepTicketsDetalleMinutos.rdlc" />
+    <Content Include="Scripts\IG\ig.ui.editors.min.js" />
+    <Content Include="Scripts\IG\ig.ui.grid.min.js" />
+    <Content Include="Scripts\IG\ig.ui.min.js" />
+    <Content Include="Scripts\IG\ig.ui.upload.min.js" />
+    <Content Include="Scripts\IG\ig.ui.videoplayer.min.js" />
+    <Content Include="Scripts\jquery-1.5.1.min.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\jquery.cascadingDropDown.js" />
+    <Content Include="Scripts\jquery.tmpl.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\modernizr-1.7.js" />
+    <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\Utilerias.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OS.Modelo\OS.Modelo.csproj">
+      <Project>{44D5289A-C523-44A2-ACBD-61626C9379C9}</Project>
+      <Name>OS.Modelo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OSStatus\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OSStatus\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OSStatus\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OSStatus\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OSStatus\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrdenServicio\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrdenServicio\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrdenServicio\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrdenServicio\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrdenServicio\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contacto\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contacto\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contacto\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contacto\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contacto\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Area\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Area\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Area\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Area\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Area\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Asesor\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Asesor\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Asesor\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Asesor\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Asesor\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Proyecto\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Proyecto\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Proyecto\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Proyecto\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Proyecto\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AsesorSeguimiento\ListaServicios.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cliente\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cliente\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cliente\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cliente\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cliente\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AsesorSeguimiento\RegistrarActividad.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OrdenServicio\TicketReporte.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\SOResource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SOResource.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SOResource.es.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SOResource.es.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SOEmailResource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SOEmailResource.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SOEmailResource.es.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SOEmailResource.es.designer.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reportes\Copy of Report2.rdlc" />
+    <Content Include="Reportes\RepAsesorTipoServicio.rdlc" />
+    <Content Include="Reportes\RepClienteTipoServicio.rdlc" />
+    <Content Include="Reportes\RepProyectosPorCliente.rdlc" />
+    <Content Include="Reportes\RepProyectoActividades.rdlc" />
+    <Content Include="Reportes\RepAsesorHorasPorDia.rdlc" />
+    <Content Include="Reportes\RepAsesorActividadesPorDia.rdlc" />
+    <Content Include="Reportes\RepListadoPolizaSaldo.rdlc" />
+    <Content Include="Reportes\RepOrdenesServicioPorDia.rdlc" />
+    <EmbeddedResource Include="Reportes\RepAsesorActividades.rdlc" />
+    <EmbeddedResource Include="Reportes\RepAsesorOrdenesServicio.rdlc" />
+    <Content Include="Reportes\RepClienteTicketsPrioridades.rdlc" />
+    <EmbeddedResource Include="Reportes\RepPolizaSaldoPorAgotar.rdlc" />
+    <EmbeddedResource Include="Views\Account\AccountResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Account\AccountResource.es.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountResource.es.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Home\MenuResource.es.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuResource.es.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Home\MenuResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
+    <None Include="Properties\PublishProfiles\Production.pubxml" />
+    <None Include="Properties\PublishProfiles\Test.pubxml" />
+    <None Include="Reportes\dsReportes.xsc">
+      <DependentUpon>dsReportes.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\dsReportes.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsReportes.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reportes\dsReportes.xss">
+      <DependentUpon>dsReportes.xsd</DependentUpon>
+    </None>
+    <Content Include="Views\AdmonReportes\Index.cshtml" />
+    <Content Include="Views\OrdenServicio\Buscar.cshtml" />
+    <Content Include="Views\OrdenServicio\_BuscarResultado.cshtml" />
+    <Content Include="Views\AsesorSeguimiento\ListaServiciosSinAtender.cshtml" />
+    <Content Include="Views\AsesorSeguimiento\ListaServiciosPropias.cshtml" />
+    <Content Include="Views\ContactoSeguimiento\ListaServicios.cshtml" />
+    <Content Include="Views\Shared\_LayoutContacto.cshtml" />
+    <Content Include="Views\ContactoSeguimiento\ListaServiciosPropias.cshtml" />
+    <Content Include="Views\ContactoSeguimiento\ListaServiciosSinAtender.cshtml" />
+    <Content Include="Views\OrdenServicio\Respaldo intento con acordion Buscar.cshtml" />
+    <Content Include="Views\Proyecto\Abonar.cshtml" />
+    <Content Include="Views\Proyecto\VerAbonos.cshtml" />
+    <Content Include="Views\Proyecto\EditarAbono.cshtml" />
+    <Content Include="Views\Contacto\CambiarContrasena.cshtml" />
+    <Content Include="Views\Home\PanelControl.cshtml" />
+    <Content Include="Views\Shared\_LayoutPanel.cshtml" />
+    <Content Include="Views\AsesorSeguimiento\ListaServiciosSinProyecto.cshtml" />
+    <Content Include="Views\ContactoSeguimiento\ConsultarActividad.cshtml" />
+    <Content Include="Views\AsesorSeguimiento\RESPALDO_COMENTARIOS_RegistrarActividad.cshtml" />
+    <Content Include="Views\Asesor\CambiarContrasena.cshtml" />
+    <Content Include="Views\AsesorSeguimiento\ListaServiciosTerminados.cshtml" />
+    <Content Include="Views\OrdenServicio\ListaServiciosSinAsesor.cshtml" />
+    <Content Include="Views\Contacto\CrearCuentas.cshtml" />
+    <Content Include="Views\AdmonReportes\ClienteIndex.cshtml" />
+    <Content Include="Views\OrdenServicio\Reasignar.cshtml" />
+    <Content Include="Views\EventoRegistro\Index.cshtml" />
+    <Content Include="Views\EventoRegistro\Details.cshtml" />
+    <Content Include="Views\EventoRegistro\Create.cshtml" />
+    <Content Include="Views\EventoRegistro\Edit.cshtml" />
+    <Content Include="Views\EventoRegistro\Delete.cshtml" />
+    <None Include="Web.Production.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Test.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>13224</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44313/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+</Project>

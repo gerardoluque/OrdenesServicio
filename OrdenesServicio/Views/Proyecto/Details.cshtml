@@ -1,0 +1,52 @@
+﻿@model ZOE.OS.Modelo.Proyecto
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Detalles del Proyecto</h2>
+
+<fieldset>
+    <legend>Proyecto</legend>
+
+    <div class="display-label">Folio</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProyectoId)
+    </div>
+
+    <div class="display-label">Cliente</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Cliente.Nombre)
+    </div>
+
+    <div class="display-label">Tipo de Proyecto</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TipoProyecto.TipoProyectoDescr)
+    </div>
+
+    <div class="display-label">Descripción</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descr)
+    </div>
+
+    <div class="display-label">Fecha</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fecha)
+    </div>
+
+    <div class="display-label">Saldo</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Saldo)
+    </div>
+
+@*    <div class="display-label">Minutos</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Minutos)
+    </div>*@
+
+</fieldset>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id=Model.ProyectoId}) |
+    @Html.ActionLink("Volver a Proyectos", "Index")
+</p>

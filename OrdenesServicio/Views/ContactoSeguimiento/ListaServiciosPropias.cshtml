@@ -1,0 +1,207 @@
+﻿@using Infragistics.Web.Mvc
+@model IQueryable<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>
+
+@{
+    ViewBag.Title = Resources.SOResource.MisOSTituloPagina;
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>@Resources.SOResource.MisOSTituloPagina</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var rowSeleccionado;
+
+    function clearValidationSummary() {
+        $('.field-validation-error')
+               .removeClass('field-validation-error')
+                .addClass('field-validation-valid');
+
+        $('.input-validation-error')
+                .removeClass('input-validation-error')
+                 .addClass('valid');
+
+    }
+
+    $(function () {
+        $("#lista-servicio-seguimiento")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('@Resources.SOResource.MsgSelecTicketSeguimiento')
+                return false;
+            }
+        });
+    });
+
+    $('#gdOrdenes').live('iggridselectionrowselectionchanged', function (event, args) { RowSelectionChanged(args.row.index); });
+
+    function RowSelectionChanged(row) {
+        rowSeleccionado = row;
+        var cell = $("#gdOrdenes").igGrid('cellAt', 0, row);
+        var ticket = $(cell).text();
+        var key = $('.selector').igGrid('option', 'primaryKey');
+        $('input[name=ticketid]').val(ticket);
+    }
+
+    //Forma para cambiar de status una actividad
+    $(function () {
+        $("#dialog-form-status").
+         dialog({
+             autoOpen: false,
+             height: 300,
+             width: 710,
+             modal: true,
+             buttons: {
+                 "@Resources.SOResource.DialogBotonCancelar": function () {
+                     $(this).dialog("close");
+                 },
+
+                 "@Resources.SOResource.DialogBotonAceptar": function () {
+                     var bValid = true;
+
+                     bValid = $("form[name='form-reg-status']").validate().form();
+
+                     if (bValid) {
+                         var cambioStatus = {
+                             Ticket: $('#ticketid').val(),
+                             StatusId: statusIdCambiar,
+                             Observaciones: $('#observacion').val()
+                         };
+
+                         $.ajax({
+                             url: '@Url.Content("~/ContactoSeguimiento/CambiarStatusOrdenServicio")',
+                             type: 'POST',
+                             data: JSON.stringify(cambioStatus),
+                             contentType: 'application/json; charset=utf-8',
+                             success: function (data) {
+                                 if (data.success) {
+                                     var cell = $("#gdOrdenes").igGrid('cellAt', 3, rowSeleccionado);
+                                     $(cell).text(data.cambioStatusMV.StatusCambioDescr);
+                                 }
+                                 else {
+                                     alert(data.cambioStatusMV.Mensaje);
+                                 }
+                             },
+                             error: function () {
+                                 alert("@Resources.SOResource.ErrorCambioStatus");
+                             }
+                         });
+
+                         $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+                 $('#observacion').val("")
+             }
+
+         });
+
+        $("#cerrar-os")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('@Resources.SOResource.MsgSelecTicketCambiaStatus')
+                return false;
+            }
+            statusIdCambiar = 4;
+
+            $('#mensaje-status-cambiar').text("@Resources.SOResource.DialogCambiaStatuslbl");
+
+            $("#dialog-form-status").dialog("open");
+        });
+
+    });
+</script>
+
+@if (Model.Count() > 0)
+{
+ @(Html.Infragistics().Grid<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>()
+   .ID("gdOrdenes")
+   .AutoGenerateColumns(false)
+   .PrimaryKey("Ticket")
+   .Columns(column =>
+       {
+           column.For(x => x.Ticket).DataType("long").HeaderText("No. Ticket");
+           column.For(x => x.Descripcion).HeaderText(Resources.SOResource.Descripcion);
+           column.For(x => x.Proyecto).HeaderText(Resources.SOResource.Proyecto);
+           column.For(x => x.Status).DataType("string").HeaderText(Resources.SOResource.Status);
+           column.For(x => x.Asesor).HeaderText(Resources.SOResource.AsesorResponsable);
+           column.For(x => x.Fecha).Format("dateTime").HeaderText(Resources.SOResource.FechaRegistro);
+           column.For(x => x.FechaUlitmoMovimiento).Format("dateTime").HeaderText(Resources.SOResource.FechaUltMovimiento);
+       })
+    .Features(features =>
+        {
+            features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+            features.Paging()
+               .ShowPageSizeDropDown(false)
+               .ShowPagerRecordsLabel(false)
+               .PageSize(10)
+            .PrevPageLabelText(Resources.SOResource.Anterior)
+            .NextPageLabelText(Resources.SOResource.Siguiente)
+            .PageSizeDropDownLabel(Resources.SOResource.Mostrar)
+            .PageSizeDropDownTrailingLabel(Resources.SOResource.Registros);
+            features.Filtering()
+                .Mode(FilterMode.Simple)
+                .RenderFitlerButton(true)
+                .ShowEmptyConditions(false)
+                .ShowNullConditions(false)
+                .RenderFitlerButton(true)
+                .Type(OpType.Remote);
+            features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+                {
+                    settings.ColumnSetting().ColumnKey("Ticket").AllowSorting(true);
+                });
+        })
+                   .DataSourceUrl(Url.Action("ListaServiciosPropias"))
+    .DataBind()
+    .Render()
+   )
+   
+   <p></p>
+   
+   using (Html.BeginForm("VerSeguimiento", "ContactoSeguimiento", FormMethod.Post))
+   {
+      <input type="hidden" id='ticketid' name='ticketid' value='' /> 
+      <input type="submit" id='lista-servicio-seguimiento' title='@Resources.SOResource.tipBotonSeguimiento' name="btnSubmit" value="@Resources.SOResource.Seguimiento"/>
+      <span>  @Resources.SOResource.lblCerrarOrdenServicio </span>
+      <button type="button" id='cerrar-os' title='@Resources.SOResource.tipBotonCerrar' name="cerrar-os" value="Cerrar">@Resources.SOResource.BotonCerrarOrdenServicio</button> 
+   }
+}
+else
+{
+    <p>@Resources.SOResource.NoRegistros</p>
+}  
+
+<div id="dialog-form-status" title="@Resources.SOResource.DialogCambiarStatus">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-reg-status", id = "actividadForm" }))
+    {
+        @Html.ValidationSummary(true)
+        
+        <div>
+           <label id="mensaje-status-cambiar"></label>
+        </div>       
+        <p></p> 
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    @Resources.SOResource.Observaciones
+                </td>
+                <td>
+                    <textarea class="text-box multi-line" data-val="true" data-val-required="@Resources.SOResource.DialogObsReq" id="observacion" name="observacion">
+                    </textarea>
+                    <div>
+                    <span class="field-validation-valid" data-valmsg-for="observacion" data-valmsg-replace="true"></span>
+                    </div>
+                </td>
+            </tr>            
+        </table>
+    }
+
+</div>

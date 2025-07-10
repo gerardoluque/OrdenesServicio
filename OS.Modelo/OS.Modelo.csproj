@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{44D5289A-C523-44A2-ACBD-61626C9379C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZOE.OS.Modelo</RootNamespace>
+    <AssemblyName>OS.Modelo</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.3.0.50813.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.1.0.20105.408\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Context\OSContext.cs" />
+    <Compile Include="Migrations\201308012348202_Version1.0.4_ReasignarAsesor.cs" />
+    <Compile Include="Migrations\201308012348202_Version1.0.4_ReasignarAsesor.Designer.cs">
+      <DependentUpon>201308012348202_Version1.0.4_ReasignarAsesor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401240809241_Eventos.cs" />
+    <Compile Include="Migrations\201401240809241_Eventos.Designer.cs">
+      <DependentUpon>201401240809241_Eventos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401240906264_Eventos_EmailReq_EsCliente.cs" />
+    <Compile Include="Migrations\201401240906264_Eventos_EmailReq_EsCliente.Designer.cs">
+      <DependentUpon>201401240906264_Eventos_EmailReq_EsCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412240754393_AgregarMinutosTickets.cs" />
+    <Compile Include="Migrations\201412240754393_AgregarMinutosTickets.Designer.cs">
+      <DependentUpon>201412240754393_AgregarMinutosTickets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloResource.es.Designer.cs">
+      <DependentUpon>ModeloResource.es.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Migrations\201303251856070_InitialMigration.cs" />
+    <Compile Include="Migrations\201303251856070_InitialMigration.Designer.cs">
+      <DependentUpon>201303251856070_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304092232216_Version1.0.1.cs" />
+    <Compile Include="Migrations\201304092232216_Version1.0.1.Designer.cs">
+      <DependentUpon>201304092232216_Version1.0.1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304102104128_Version1.0.2.cs" />
+    <Compile Include="Migrations\201304102104128_Version1.0.2.Designer.cs">
+      <DependentUpon>201304102104128_Version1.0.2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304161849510_Version1.0.3_EnvioCorreo.cs" />
+    <Compile Include="Migrations\201304161849510_Version1.0.3_EnvioCorreo.Designer.cs">
+      <DependentUpon>201304161849510_Version1.0.3_EnvioCorreo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ModeloResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Accion.cs" />
+    <Compile Include="Model\Area.cs" />
+    <Compile Include="Model\Asesor.cs" />
+    <Compile Include="Model\BitOSStatus.cs" />
+    <Compile Include="Model\Cliente.cs" />
+    <Compile Include="Model\ClientePrioridad.cs" />
+    <Compile Include="Model\Complex\OSNotaSeguimiento.cs" />
+    <Compile Include="Model\Complex\OSSeguimiento.cs" />
+    <Compile Include="Model\Contacto.cs" />
+    <Compile Include="Model\BitOSDetalleStatus.cs" />
+    <Compile Include="Model\Contacto.Ext.cs" />
+    <Compile Include="Model\Asesor.Ext.cs" />
+    <Compile Include="Model\BitOSReasignacion.cs" />
+    <Compile Include="Model\Evento.cs" />
+    <Compile Include="Model\EventoAsistente.cs" />
+    <Compile Include="Model\OrdenServicio.cs" />
+    <Compile Include="Model\ParamCorreo.cs" />
+    <Compile Include="Model\GrupoAsesor.cs" />
+    <Compile Include="Model\Grupo.cs" />
+    <Compile Include="Model\OSDetalle.cs" />
+    <Compile Include="Model\OSDetalleStatus.cs" />
+    <Compile Include="Model\OSNota.cs" />
+    <Compile Include="Model\OSStatus.cs" />
+    <Compile Include="Model\Proyecto.cs" />
+    <Compile Include="Model\ProyectoAbono.cs" />
+    <Compile Include="Model\RolAccion.cs" />
+    <Compile Include="Model\Servicio.cs" />
+    <Compile Include="Model\TipoProyecto.cs" />
+    <Compile Include="Model\TipoServicio.cs" />
+    <Compile Include="Model\Usuario.cs" />
+    <Compile Include="Model\ViaComunicacion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <Compile Include="Model\OSDetalle.Ext.cs" />
+    <Compile Include="Model\Proyecto.Ext.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201308012348202_Version1.0.4_ReasignarAsesor.resx">
+      <DependentUpon>201308012348202_Version1.0.4_ReasignarAsesor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401240809241_Eventos.resx">
+      <DependentUpon>201401240809241_Eventos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401240906264_Eventos_EmailReq_EsCliente.resx">
+      <DependentUpon>201401240906264_Eventos_EmailReq_EsCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412240754393_AgregarMinutosTickets.resx">
+      <DependentUpon>201412240754393_AgregarMinutosTickets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModeloResource.es.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModeloResource.es.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201303251856070_InitialMigration.resx">
+      <DependentUpon>201303251856070_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304092232216_Version1.0.1.resx">
+      <DependentUpon>201304092232216_Version1.0.1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304102104128_Version1.0.2.resx">
+      <DependentUpon>201304102104128_Version1.0.2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304161849510_Version1.0.3_EnvioCorreo.resx">
+      <DependentUpon>201304161849510_Version1.0.3_EnvioCorreo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModeloResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModeloResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

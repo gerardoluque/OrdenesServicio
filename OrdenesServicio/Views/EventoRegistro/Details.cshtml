@@ -1,0 +1,40 @@
+﻿@model ZOE.OS.Modelo.EventoAsistente
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>EventoAsistente</legend>
+
+    <div class="display-label">Fecha</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fecha)
+    </div>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nombre)
+    </div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">Telefono</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Telefono)
+    </div>
+
+    <div class="display-label">Evento</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Evento.EventoDescr)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.EventoAsistenteId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

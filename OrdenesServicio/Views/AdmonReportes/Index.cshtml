@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Reportes de Administración</h2>
+
+<nav>
+    <h4>Reportes de control</h4>
+    <ul>
+        <li><a href=@Url.Content("~/Reportes/RepAsesorActividades.aspx") target="_blank">Actividades por Asesor</a></li>
+        <li><a href=@Url.Content("~/Reportes/ReporteAsesorTipoServicio.aspx") target="_blank">Total de Tipos de Servicios por Asesor</a></li>
+        <li><a href=@Url.Content("~/Reportes/ReporteClienteTipoServicio.aspx") target="_blank">Total de Tipos de Servicios por Cliente</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepPolizaDetalleServicio.aspx") target="_blank">Detalle de Servicios (Saldos) de Polizas Activas</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepPolizaSaldoPorAgotar.aspx") target="_blank">Polizas con saldo por agotar</a></li>        
+        <li><a href=@Url.Content("~/Reportes/RepActividadesProyectoPorCliente.aspx") target="_blank">Actividades por Proyecto</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepAsesorOrdenesServicio.aspx") target="_blank">Ordenes de Servicio Por Asesor</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepListadoPolizaSaldo.aspx") target="_blank">Listado de Polizas</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepOrdenesServicioPorDia.aspx") target="_blank">Tickets creados por día</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepTicketsDetalleMinutos.aspx") target="_blank">Detalle minutos de Tickets por Cliente/Proyecto</a></li>
+    </ul>
+    <p></p>
+    <h4>Reportes de Asesores</h4>
+    <ul>
+        <li><a href=@Url.Content("~/Reportes/RepAsesorHoras.aspx") target="_blank">Total de Horas</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepAsesorHorasPorDia.aspx") target="_blank">Total de Horas por día</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepAsesorActividadesPorDia.aspx") target="_blank">Actividades por día</a></li>
+    </ul>
+</nav>
+
+@*<li><a href=@Url.Content("~/Reportes/RepProyectosPorCliente.aspx") target="_blank">Actividades por Proyecto</a></li>
+*@

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ZOE.OS.Modelo.Accion>
+
+@{
+    Layout = "";
+}
+
+<link href="@Url.Content("~/Content/Menu/menu.css")" rel="stylesheet" type="text/css" />
+
+@*<script src="../../Content/Menu/jquery.js" type="text/javascript"></script>
+<script src="../../Content/Menu/menu.js" type="text/javascript"></script>*@
+
+<div id="menu">
+   <ul class="menu">
+    @foreach (var menu in Model.Where(p=>p.Tipo == (short)ZOE.OS.Modelo.TiposAccion.Agrupacion))
+    {
+        <li><a href="#" class="parent"><span>@ZOE.OrdenesServicio.Views.Home.MenuResource.ResourceManager.GetString(String.Format("Accion{0}",@menu.AccionId)) </span></a>
+          <div><ul>
+            @foreach (var submenu in Model.Where(p => p.AccionIdPadre == menu.AccionId).OrderBy(o=>o.Orden))
+            {
+                <li><a href=@Url.Content(string.Format("~/{0}/{1}",submenu.Controller,@submenu.Action))><span>@ZOE.OrdenesServicio.Views.Home.MenuResource.ResourceManager.GetString(String.Format("Accion{0}", @submenu.AccionId))</span></a></li>
+            }
+        </ul></div>
+        </li>
+    }
+   </ul>
+</div>
+
+@*
+@Html.ActionLink(submenu.AccionDescr, submenu.Action, submenu.Controller)
+@foreach (var menu in Model.Where(p=>p.Tipo == (short)ZOE.OS.Modelo.TiposAccion.Agrupacion))
+{
+    @menu.AccionDescr
+        <ul>
+            @foreach (var submenu in Model.Where(p => p.AccionIdPadre == menu.AccionId).OrderBy(o => o.Orden))
+            {
+                <li><a href="/@submenu.Controller/@submenu.Action">@submenu.AccionDescr</a></li>
+            }
+        </ul>
+}
+*@
+

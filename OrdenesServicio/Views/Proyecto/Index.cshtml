@@ -1,0 +1,149 @@
+﻿@model IEnumerable<ZOE.OS.Modelo.Proyecto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Listado de Proyectos</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo", "Create")
+</p>
+
+
+<script type="text/javascript">
+    $(window).load(function () {
+        BindDataSource();
+        SetConditions();
+    });
+
+    function BindDataSource() {
+        $("#t1").igGrid({
+            autoGenerateColumns: true,
+            columns: [
+				{ key: 1, width: "60px", dataType: "number", headerText: "Proyecto" },
+                { key: 2, width: "270px", dataType: "string", headerText: "Nombre Cliente" },
+                { key: 3, width: "120px", dataType: "string", headerText: "Tipo" },
+                { key: 4, width: "200px", dataType: "string", headerText: "Descripción" },
+                { key: 5, width: "70px", dataType: "date", headerText: "Fecha" },
+                { key: 6, width: "220px", dataType: "string", headerText: "Acción" }
+			],
+            defaultColumnWidth: 150,
+            features: [
+                {
+                    name: 'Sorting',
+                    type: 'local'
+                }
+            ]
+        });
+        }
+
+        function SetConditions() {
+            var filterColumn = $("#filterColumn").val();
+            $("#cond_list option:selected").removeAttr("selected");
+            if (filterColumn === "1") {
+                $("#cond_list .stringCondition").attr("disabled", "disabled");
+                $("#cond_list .numberCondition").removeAttr("disabled").eq(0).attr("selected", "selected");
+            }
+            else {
+                $("#cond_list .stringCondition").removeAttr("disabled").eq(0).attr("selected", "selected");
+                $("#cond_list .numberCondition").attr("disabled", "disabled");
+            }
+        }
+
+        function Filter() {
+            var columnSettings = $("#t1").igGridFiltering('option', 'columnSettings');
+
+            var expr = $("#filterExpr").val(),
+                condition = $("#cond_list").val(),
+                filterColumn = $("#filterColumn").val();
+            $("#t1").igGridFiltering('filter', ([{ fieldName: filterColumn, expr: expr, cond: condition}]));
+        }
+
+</script>
+
+<div >
+
+@*    <div>
+     Type Expression:
+            <input style="width: 100px" id="filterExpr" />
+            Choose Column to Filter:
+            <select id="filterColumn" onchange="SetConditions();">
+                <option>1</option>
+                <option>2</option>
+            </select>
+     Filtering condition:
+        <select id="cond_list">
+    	    <option class="numberCondition" value='equals'>Equals</option>
+		    <option class="numberCondition" value='doesNotEqual'>Does Not Equal</option>
+		    <option class="numberCondition" value='lessThan'>Less Than</option>
+		    <option class="numberCondition" value='greaterThan'>Greater Than</option>
+		    <option class="stringCondition" value='startsWith'>Starts With</option>
+		    <option class="stringCondition" value='endsWith'>Ends With</option>
+		    <option class="stringCondition" value='contains'>Contains</option>
+		    <option class="stringCondition" value='doesNotContain'>Does Not Contain</option>
+		    <option class="stringCondition" value='empty'>Empty</option>
+		    <option class="stringCondition" value='notEmpty'>NotEmpty</option>
+        </select>
+            <input type="button" id='igButtonFilter' value="Filter" onclick="Filter();" />
+
+                <fieldset class="eventsWrapper">
+                    <legend class="eventsLegend">Event List</legend>
+                    <div id="eventList" class="controlPanelEvent"></div>
+                </fieldset>
+    </div>
+*@
+    <table id="t1" class="standard-grid">
+      <thead>
+        <tr>
+            <th>
+                Folio
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Tipo de Proyecto
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>            
+            </th>
+            <th>
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProyectoId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoProyecto.TipoProyectoDescr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.ActionLink("Abonos", "VerAbonos", new { id = item.ProyectoId }) | 
+                    @Html.ActionLink("Editar", "Edit", new { id=item.ProyectoId }) |
+                    @Html.ActionLink("Abonar", "Abonar", new { id = item.ProyectoId }) | 
+                    <a href=@Url.Content("~/Reportes/RepProyectosPorCliente.aspx?proyectoid=" + item.ProyectoId ) target="_blank">Actividades</a>
+                </td>
+            </tr>    
+        }
+      </tbody>
+    </table>
+</div>

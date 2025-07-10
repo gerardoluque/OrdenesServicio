@@ -1,0 +1,55 @@
+﻿@model ZOE.OS.Modelo.OrdenServicio
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>OrdenServicio</legend>
+
+    <div class="display-label">Fecha</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fecha)
+    </div>
+
+    <div class="display-label">FechaComp</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FechaComp)
+    </div>
+
+    <div class="display-label">Obs</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Obs)
+    </div>
+
+    <div class="display-label">Status</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Status.Descr)
+    </div>
+
+    <div class="display-label">Contacto</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Contacto.Nombre)
+    </div>
+
+    <div class="display-label">Asesor</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Asesor.Nombre)
+    </div>
+
+    <div class="display-label">AreaResponsable</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AreaResponsable.AreaDescr)
+    </div>
+
+    <div class="display-label">Poliza</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Poliza.Numero)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Ticket }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

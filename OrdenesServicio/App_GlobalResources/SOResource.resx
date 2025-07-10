@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Actividades" xml:space="preserve">
+    <value>Activities</value>
+  </data>
+  <data name="Anterior" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Asesor" xml:space="preserve">
+    <value>Consultant</value>
+  </data>
+  <data name="AsesorResponsable" xml:space="preserve">
+    <value>Responsible Consultant</value>
+  </data>
+  <data name="BotonAgregar" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="BotonCerrarOrdenServicio" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="botonCrearOrdenServicio" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CambiarContrasena" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Comentario" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Comentarios" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="ComentlblAgregar" xml:space="preserve">
+    <value>To add a new comment press the "Add" button</value>
+  </data>
+  <data name="ConsultarActividades" xml:space="preserve">
+    <value>See Activities</value>
+  </data>
+  <data name="Contacto" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="CrearOrdenServicioTituloPagina" xml:space="preserve">
+    <value>Create a New Service Order</value>
+  </data>
+  <data name="Descripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DialogAgregarComentario" xml:space="preserve">
+    <value>Add a new comment to the Service Order</value>
+  </data>
+  <data name="DialogBotonAceptar" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DialogBotonCancelar" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DialogBtnAgregarComentario" xml:space="preserve">
+    <value>Add Comment</value>
+  </data>
+  <data name="DialogCambiarStatus" xml:space="preserve">
+    <value>Change Status</value>
+  </data>
+  <data name="DialogCambiaStatuslbl" xml:space="preserve">
+    <value>Close this order of service</value>
+  </data>
+  <data name="DialogCampoComentReq" xml:space="preserve">
+    <value>The comment is required</value>
+  </data>
+  <data name="DialogObsReq" xml:space="preserve">
+    <value>The Comment is required</value>
+  </data>
+  <data name="ElDia" xml:space="preserve">
+    <value>The day</value>
+  </data>
+  <data name="ErrorAgregarComentario" xml:space="preserve">
+    <value>Process canceled!, An error occurred while trying to add the comment</value>
+  </data>
+  <data name="ErrorCambioStatus" xml:space="preserve">
+    <value>Process canceled!, An error occurred while trying to change the status</value>
+  </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FechaInicio" xml:space="preserve">
+    <value>Initial Date</value>
+  </data>
+  <data name="FechaRegistro" xml:space="preserve">
+    <value>Register Date</value>
+  </data>
+  <data name="FechaTermino" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="FechaUltMovimiento" xml:space="preserve">
+    <value>Last Activitie Date</value>
+  </data>
+  <data name="Historia" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="IniciarSesion" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="lblCerrarOrdenServicio" xml:space="preserve">
+    <value>To close the service order, press the button "Close"</value>
+  </data>
+  <data name="lblOSSinActividades" xml:space="preserve">
+    <value>This service order has not yet activities </value>
+  </data>
+  <data name="lblOSSinComentarios" xml:space="preserve">
+    <value>This service order has no comments yet</value>
+  </data>
+  <data name="MisOSTituloPagina" xml:space="preserve">
+    <value>My Service Orders</value>
+  </data>
+  <data name="Mostrar" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="MsgCerrarOSNoValido" xml:space="preserve">
+    <value>The service order must be Completed to put it as Closed</value>
+  </data>
+  <data name="MsgOSActNoTerminadaCancelada" xml:space="preserve">
+    <value>The service order activities must have completed and / or canceled</value>
+  </data>
+  <data name="MsgSelecTicketCambiaStatus" xml:space="preserve">
+    <value>Please select a ticket to change the status</value>
+  </data>
+  <data name="MsgSelecTicketSeguimiento" xml:space="preserve">
+    <value>Please select a ticket</value>
+  </data>
+  <data name="MsgTerminarOSNoValido" xml:space="preserve">
+    <value>The service order must be created or tracking to put it as completed</value>
+  </data>
+  <data name="Nombre" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NoRegistros" xml:space="preserve">
+    <value>No records found</value>
+  </data>
+  <data name="Observaciones" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Proyecto" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="RegistrarActividades" xml:space="preserve">
+    <value>Register Activities</value>
+  </data>
+  <data name="Registros" xml:space="preserve">
+    <value>Records</value>
+  </data>
+  <data name="Responsable" xml:space="preserve">
+    <value>Responsible</value>
+  </data>
+  <data name="Salir" xml:space="preserve">
+    <value>Log Off</value>
+  </data>
+  <data name="Seguimiento" xml:space="preserve">
+    <value>Tracing</value>
+  </data>
+  <data name="Servicio" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Siguiente" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="TicketNumero" xml:space="preserve">
+    <value>Ticket Number</value>
+  </data>
+  <data name="tipBotonCerrar" xml:space="preserve">
+    <value>Set Closed the selected Service Order</value>
+  </data>
+  <data name="tipBotonSeguimiento" xml:space="preserve">
+    <value>See Activities</value>
+  </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="VerParticipoTituloPagina" xml:space="preserve">
+    <value>Service Orders in which I participate</value>
+  </data>
+  <data name="VerSinAtenderTituloPagina" xml:space="preserve">
+    <value>Without Addressing Service Orders</value>
+  </data>
+  <data name="Imprimir" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="RepActPorProyecto" xml:space="preserve">
+    <value>Activities by Project</value>
+  </data>
+  <data name="RepAdministracion" xml:space="preserve">
+    <value>Management Reports</value>
+  </data>
+  <data name="RepSaldoDePoliza" xml:space="preserve">
+    <value>Balance Policy</value>
+  </data>
+  <data name="TicketRepClienteEmpresa" xml:space="preserve">
+    <value>Company/Contact</value>
+  </data>
+  <data name="Volver" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="SinAsesor" xml:space="preserve">
+    <value>No assigned Counsltant</value>
+  </data>
+  <data name="SinProyecto" xml:space="preserve">
+    <value>No assigned Project</value>
+  </data>
+</root>

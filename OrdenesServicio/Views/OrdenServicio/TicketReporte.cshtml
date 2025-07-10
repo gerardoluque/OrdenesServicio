@@ -1,0 +1,94 @@
+﻿@model ZOE.OS.Modelo.OrdenServicio
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Ticket Report</title>
+ <script>
+    function printpage() {
+        window.print()
+    }
+ </script>
+
+</head>
+
+
+<div style="width:760px; margin-left:40px; margin-right:40px; font-family:Verdana; border-style:solid; border-width:thin; border-color:Gray" >
+    <div style="padding:5px;">
+        <table border="0" cellpadding="0" cellspacing="0" width="750px">
+            <tr>
+                <td>
+                    <img src="../../Content/Image/ZoeLogo.png" width="200px"; height="120px"; alt="Zoe" />
+                </td>
+               <td style="width:25%; text-align:right; font-size:small">
+                        ZOE IT CUSTOMS 
+                        1737 N FIRST ST. SUITE 110 
+                        SAN JOSE, CA. 95112
+                        Office (408) 705 10 68
+                        USA  1(877) 840 6240
+                        México 01 (800) 027 3049  
+                        Costa Rica 0-800-0521393
+                </td>
+            </tr>
+            <tr>
+ 
+            </tr>
+        </table>
+    </div>
+    
+    <p></p>
+    <p></p>
+
+    <div style="padding:5px;">
+        <strong style="font-size:x-large">@Resources.SOResource.TicketNumero @Html.DisplayFor(model => model.Ticket)</strong>
+
+        <p></p>
+
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>@Resources.SOResource.TicketRepClienteEmpresa:</td>
+                <td style="padding-left:5px;">@Html.DisplayFor(model => model.Contacto.Cliente.Nombre) (@Html.DisplayFor(model => model.Contacto.NombreCompleto))</td>
+             </tr>
+             <tr style="padding-top:13px;">
+                <td>@Resources.SOResource.Fecha:</td>
+                <td style="padding-left:5px;">@Model.Fecha.ToLongDateString()</td>
+            </tr>
+            @*<tr style="padding-top:13px;">
+                <td>Asesor Responsable:</td>
+                <td style="padding-left:5px;">@Html.DisplayFor(model => model.Asesor.NombreCompleto)</td>            
+            </tr>*@
+        </table>
+
+        <p></p>
+        <p></p>
+
+        <div class="display-label">@Resources.SOResource.Descripcion:</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Obs)
+        </div>        
+    </div>
+
+</div>
+
+<div style="display:inline-block;margin-top:50px; margin-left:50px;">
+@if (@ViewBag.AsesorCreo == 1)
+{
+    @Html.ActionLink(Resources.SOResource.Volver, "ListaServiciosPropias", "AsesorSeguimiento")
+}
+else
+{
+    @Html.ActionLink(Resources.SOResource.Volver, "ListaServiciosPropias", "ContactoSeguimiento")
+}
+</div>
+
+<div style="display:inline-block; margin-top:50px; margin-left:50px;">
+    <input type="button" value="@Resources.SOResource.Imprimir" onclick="printpage()">
+</div>
+
+</html>
+

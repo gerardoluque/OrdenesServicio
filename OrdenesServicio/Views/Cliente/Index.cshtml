@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ZOE.OS.Modelo.Cliente>
+
+@{
+    ViewBag.Title = "Clientes";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Listado de Clientes</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo Cliente", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            RFC
+        </th>
+        <th>
+            Origen
+        </th>
+        <th>
+            Tipo de Cliente
+        </th>
+        <th>
+            Dirección
+        </th>
+        <th>
+            Telefono
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Prioritario
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rfc)
+        </td>
+        <td>
+            @if (item.Tipo == (short)ZOE.OS.Modelo.EmpresaOrigen.Nacional)
+            {
+                <text>Nacional</text>;
+            }
+            else
+            {
+                <text>Extranjero</text>;
+            }
+        </td>
+        <td>
+            @if (item.TipoCliente == (short)ZOE.OS.Modelo.TiposCliente.Cliente)
+            {
+                <text>Cliente</text>;
+            }
+            else
+            {
+                <text>Prospecto</text>;
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @if (item.Prioritario == "S")
+            {
+                <text>Si</text>;
+            }
+            else
+            {
+                <text>No</text>;
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.ClienteId }) @*|
+            @Html.ActionLink("Detalles", "Details", new { id = item.ClienteId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ClienteId })*@
+        </td>
+    </tr>
+}
+
+</table>

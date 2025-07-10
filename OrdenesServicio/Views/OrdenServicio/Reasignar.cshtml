@@ -1,0 +1,294 @@
+﻿@using Infragistics.Web.Mvc
+@model ZOE.OrdenesServicio.Model.OrdenServicio.AgregarModificarDetalleViewModel
+
+@{
+    ViewBag.Title = "Reasignar";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Reasignar Asesor</h2>
+<p></p>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+       $("#asesor-actual").text('@Model.OrdenServicio.Asesor.NombreCompleto');
+       if (@Model.OrdenServicio.OSStatusId != 1 && @Model.OrdenServicio.OSStatusId != 2) {
+          $("#cambiar-asesor").attr('disabled', 'disabled');
+       };
+    });
+
+    function clearValidationSummary() {
+        $('.field-validation-error')
+               .removeClass('field-validation-error')
+                .addClass('field-validation-valid');
+
+        $('.input-validation-error')
+                .removeClass('input-validation-error')
+                 .addClass('valid');
+    }
+
+    //Link abre ventana de dialogo de seleccion de asesor
+    $("#cambiar-asesor").live("click", function(){
+        $("#dialog-form-reasignar").dialog("open");
+    });
+
+    //Forma para cambiar de asesor
+    $(function () {
+        $("#dialog-form-reasignar").
+         dialog({
+             autoOpen: false,
+             height: 260,
+             width: 610,
+             modal: true,
+             buttons: {
+                 "Cancelar": function () {
+                     $(this).dialog("close");
+                 },
+
+                 "Aceptar": function () {
+                     var bValid = true;
+
+                     bValid = $("form[name='form-cambia-asesor']").validate().form();
+
+                     if (bValid) {
+                        var cambioAsesor = 
+                        {
+                            TicketId: @ViewBag.TicketId,
+                            AsesorId: $('#_AsesorId').val(),
+                            Observacion: $('#observacion').val()
+                        };
+
+                        $.ajax({
+                            url: '@Url.Content("~/OrdenServicio/ReasignarAsesor")',
+                            type: 'POST',
+                            data: JSON.stringify(cambioAsesor),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                if (data.success) {
+                                    $("#asesor-actual").text(data.NombreCompleto);
+                                }
+                                else {
+                                    alert("proceso cancelado !, Ocurrio un error al tratar de reasignar el asesor");
+                                }
+                            },
+                            error: function (e) {
+                                alert("proceso cancelado !, Ocurrio un error al tratar de reasignar el asesor");
+                            }
+                        });                        
+
+                        $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+                 $('#_AsesorId').val("")
+             }
+
+         });
+    });
+
+    $(function () {
+        $("#cambiar-asesor")
+        .button()
+        .click(function () {            
+        });
+    });
+
+  //Control Tab para organizar los datos de la orden de servicio (Actividades, Comentarios, Historia)
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+
+</script>
+
+<fieldset style="padding-top:10px;">
+    <legend>Ticket Número @Html.DisplayFor(model => model.OrdenServicio.Ticket)</legend>
+
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="color:Black;"><strong>Cliente/Empresa:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Contacto.Cliente.Nombre)<span> (@Html.DisplayFor(model => model.OrdenServicio.Contacto.NombreCompleto))</span></td>
+            <td style="color:Black;"><strong>Fecha:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Fecha)</td>
+        </tr>
+        <tr>
+            <td style="color:Black;"><strong>Proyecto:</strong></td>
+            <td> 
+               @Html.DisplayFor(model => model.OrdenServicio.Proyecto.Descr)
+            </td>
+        </tr>
+        <tr>
+            <td style="color:Black;"><strong>Asesor En Turno:</strong></td>
+            <td> <label id='asesor-actual'></label><span><button id='cambiar-asesor' title='Permite seleccionar otro asesor para la orden de servicio' name="cambiar-asesor" value="Cambiar">Cambiar Asesor</button></span></td>
+            <td style="color:Black;"><strong>Status:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Status.Descr)</td>
+        </tr>
+    </table>
+
+    <div class="display-label"  style="color:Black;"><strong>Descripción:</strong></div>
+    <div class="display-field-ancho">
+        @Html.DisplayFor(model => model.OrdenServicio.Obs)
+    </div>
+</fieldset>
+
+ <p></p>
+ 
+ <div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Actividades</a></li>
+    <li><a href="#tabs-2">Comentarios</a></li>
+    <li><a href="#tabs-3">Historia</a></li>
+  </ul>
+
+  <div id="tabs-1">
+     <div>
+     @if (ViewBag.TotalActividades > 0)
+     { 
+         @(Html.Infragistics().Grid<ZOE.OS.Modelo.OSDetalle>()
+           .ID("gdActividades")
+           .AutoGenerateColumns(true)
+                .PrimaryKey("DetalleId")
+           .Columns(column =>
+           {
+               column.For(x => x.DetalleId).HeaderText("No.");
+               column.For(x => x.DetalleDescr).HeaderText("Descripción");
+               column.For(x => x.StatusDescripcion).HeaderText("Status");
+               column.For(x => x.NombreContacto).HeaderText("Contacto");
+               column.For(x => x.NombreAsesor).HeaderText("Asesor");
+               column.For(x => x.ServicioDescripcion).HeaderText("Tipo de Servicio");
+               column.For(x => x.TipoServicioDescripcion).HeaderText("Clasificación");
+               column.For(x => x.Minutos).HeaderText("Minutos");
+               column.For(x => x.FechaAbierto).Format("dateTime").DataType("date").HeaderText("Fecha Inicio");
+               column.For(x => x.FechaComp).Format("dateTime").DataType("date").HeaderText("Fecha Compromiso");
+           })
+            .Features(features =>
+            {
+                features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+                features.Paging()
+                    .ShowPageSizeDropDown(false)
+                    .ShowPagerRecordsLabel(false)
+                    .PageSize(5)
+                    .PrevPageLabelText("Anterior")
+                    .NextPageLabelText("Siguiente")
+                    .PageSizeDropDownLabel("Mostrar")
+                    .PageSizeDropDownTrailingLabel("Registros");
+                features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+                {
+                    settings.ColumnSetting().ColumnKey("DetalleId").AllowSorting(true);
+                });
+            })
+                 .DataSourceUrl(Url.Action("ObtenerActividades", "AsesorSeguimiento", new { id = Model.OrdenServicio.Ticket }))
+            .DataBind()
+            .Render()
+           )
+         <p></p>
+     }
+     else
+     {
+         <p style="font-style:italic">Esta orden de servicio aun no cuenta con actividades</p>
+     }
+    </div>
+  </div>
+
+  <div id="tabs-2">
+    @(Html.Infragistics().Grid<ZOE.OS.Modelo.OSNotaSeguimiento>()
+    .ID("gdComentarios")
+    .AutoGenerateColumns(false)
+            .PrimaryKey("OSNotaId")
+    .Columns(column =>
+    {
+        column.For(x => x.OSNotaId).HeaderText("No.").Width("60px");
+        column.For(x => x.Nota).HeaderText("Comentario").Width("400px");
+        column.For(x => x.FechaRegistro).Format("dateTime").DataType("date").HeaderText("Fecha").Width("120px");
+        column.For(x => x.NombreUsuario).HeaderText("Nombre").Width("250px");
+    })
+    .Features(features =>
+    {
+        features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+        features.Paging()
+            .ShowPageSizeDropDown(false)
+            .ShowPagerRecordsLabel(false)
+            .PageSize(5)
+            .PrevPageLabelText("Anterior")
+            .NextPageLabelText("Siguiente")
+            .PageSizeDropDownLabel("Mostrar")
+            .PageSizeDropDownTrailingLabel("Registros");
+        features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+        {
+            settings.ColumnSetting().ColumnKey("FechaRegistro").AllowSorting(true);
+        });
+    })
+            .Virtualization(false).GenerateCompactJSONResponse(true).DataSourceUrl(Url.Action("ObtenerComentarios", "AsesorSeguimiento", new { id = Model.OrdenServicio.Ticket }))
+    .DataBind()
+    .Render()
+    )
+
+    @if (ViewBag.TotalComentarios == 0)
+    {          
+         <p id="labelNoComentarios" style="font-style:italic">Esta orden de servicio aun no cuenta con comentarios</p>
+    }
+  </div>
+
+  <div id="tabs-3">
+    <hr />
+    @(Html.Infragistics().Grid<ZOE.OrdenesServicio.Modelo.OrdenServicioHistoriaViewModel>()
+    .ID("gdHistoria")
+    .AutoGenerateColumns(false)
+    .ShowHeader(false)
+    .Columns(column =>
+    {
+        column.For(x => x.Obs);
+        column.For(x => x.CambioStatus);
+        column.For(x => x.Fecha).Format("dateTime");
+        column.For(x => x.Responsable);
+    })
+                                            .RowTemplate("<div><span class='row_template'>${Responsable}</span> <span class='row_template'> el día ${Fecha}</span></div>  <div><span class='row_template'>${CambioStatus}</span></div> <div><span class='row_template'>${Obs}</span></div> <hr>")
+            .JQueryTemplating(true).DataSourceUrl(Url.Action("ObtenerHistoria", "AsesorSeguimiento", new { id = Model.OrdenServicio.Ticket }))
+    .DataBind()
+    .Render()
+    )
+  </div>
+
+ </div>
+
+ 
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div id="dialog-form-reasignar" title="Reasignar Asesor a la Orden de Servicio">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-cambia-asesor", id = "reasignarForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Nuevo Asesor:
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.AsesorIdSeleccionado, (SelectList)ViewBag.AsesorId, String.Empty, new { @id = "_AsesorId", @class = "drop-down" })
+                    @Html.ValidationMessageFor(model => model.AsesorIdSeleccionado, "El Asesor es requerido")
+                </td>
+            </tr>            
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Observaciones:
+                </td>
+                <td>
+                    <textarea class="text-box multi-line" data-val="true" data-val-required="La observacion es requerida" id="observacion" name="observacion">
+                    </textarea>
+                    <div>
+                    <span class="field-validation-valid" data-valmsg-for="observacion" data-valmsg-replace="true"></span>
+                    </div>
+                </td>
+            </tr>      
+        </table>
+    }
+
+</div>

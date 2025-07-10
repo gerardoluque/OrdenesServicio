@@ -1,0 +1,39 @@
+# Archivos y carpetas generados por Visual Studio
+.vs/
+*.user
+*.suo
+
+# Carpetas de compilación
+bin/
+obj/
+
+# Paquetes NuGet
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Archivos de configuración de usuario
+*.userosscache
+*.sln.docstates
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Archivos de publicación
+publish/
+*.Publish.xml
+
+# Archivos de base de datos locales
+*.mdf
+*.ldf
+
+# Otros archivos comunes a ignorar
+_ReSharper*/
+*.resharper
+*.DotSettings.user
+TestResults/
+*.vspscc
+*.vssscc

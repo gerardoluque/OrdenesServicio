@@ -1,0 +1,73 @@
+﻿@model ZOE.OS.Modelo.Contacto
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Cambiar Contraseña</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<h4>
+    <div>
+        @Html.DisplayFor(model => model.NombreCompleto),  
+        @Html.DisplayFor(model => model.Cliente.Nombre)
+    </div>
+    <div class="editor-label">
+        @Model.Email
+    </div>
+</h4>
+
+<p></p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+<fieldset>
+    <legend>Nueva Contraseña</legend>
+        
+        @Html.HiddenFor(model => model.ContactoId)
+        @Html.HiddenFor(model => model.Nombre)
+
+        @if (Model.UserName == null)
+        {
+            <div class="editor-label">
+                @Html.LabelFor(model => model.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName)
+            </div>            
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.UserName)
+        }
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+ 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ConfirmPassword)
+            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+        </div>
+</fieldset>
+
+<p>
+    <input type="submit" value="Actualizar" />
+</p>
+}
+
+<p>
+    @Html.ActionLink("Volver a Contactos", "Index")
+</p>

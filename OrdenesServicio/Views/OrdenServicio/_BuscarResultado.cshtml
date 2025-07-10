@@ -1,0 +1,171 @@
+﻿ @model IQueryable<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>
+ 
+ @using Infragistics.Web.Mvc
+
+ @{
+    ViewBag.Title = " ";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+ <head>
+    <meta charset="utf-8" />
+
+    <script type="text/javascript">
+        var actividadesDS;
+        var rowSeleccionado;
+
+        $(document).ready(function() {
+            if (@ViewBag.MostrarReasignar == 1)
+              $("#lista-servicio-reasignar").show();
+            else
+              $("#lista-servicio-reasignar").hide();
+        });
+
+        InicializarDataSource();
+
+        function InicializarDataSource() {
+            actividadesDS = [{ "NombreContacto": null, "NombreAsesor": null, "ServicioDescripcion": null, "TipoServicioDescripcion": null, "StatusDescripcion": null, "Ticket": null, "DetalleId": null, "OrdenServicio": null, "DetalleDescr": null, "FechaRegistro": null, "FechaAbierto": null, "FechaCerrado": null, "FechaComp": null, "Minutos": null, "AfectaPoliza": null, "Prioridad": null, "ContactoId": null, "Contacto": { "UserName": null, "Password": null, "ConfirmPassword": null, "NombreCompleto": null, "ContactoId": null, "Nombre": null, "Paterno": null, "Materno": null, "Telefono": null, "Movil": null, "Email": null, "Puesto": null, "ClienteId": null, "Cliente": null, "AreaId": null, "Area": null, "UsuarioAcceso": null }, "AsesorId": null, "Asesor": { "AsesorId": null, "Nombre": null, "Paterno": null, "Materno": null, "Telefono": null, "Movil": null, "Email": null, "AreaId": null, "UsuarioAcceso": null, "Area": null, "UserName": null, "Password": null, "ConfirmPassword": null, "NombreCompleto": null }, "AreaRespId": null, "AreaResponsable": null, "StatusId": null, "Status": { "OSDetalleSTId": null, "OSDetalleSTDescr": "Activa" }, "ServicioId": null, "Servicio": { "ServicioId": null, "ServicioDescr": null }, "TipoServicioId": null, "TipoServicio": { "TipoServicioId": null, "TipoServicioDescr": null, "AfectaPoliza": null }, "ViaComunicacionId": null, "ViaComunicacion": null, "FechaTerminada": null, "ObsTerminada": null, "UsuarioTermino": null, "FechaCancelada": null, "ObsCancelada": null, "UsuarioCancelo": null, "FechaPendiente": null, "ObsPendiente": null, "UsuarioPendiente": null}];
+        }
+
+        $(function () {
+            $("#grid1").igGrid({
+                dataSource: actividadesDS,
+                autoGenerateColumns: false,
+                columns: [{ key: 'DetalleId', dataType: 'number', headerText: 'No.' }, { key: 'DetalleDescr', dataType: 'string', headerText: 'Descripción' }, { key: 'StatusDescripcion', dataType: 'string', headerText: 'Status' }, { key: 'NombreContacto', dataType: 'string', headerText: 'Contacto' }, { key: 'NombreAsesor', dataType: 'string', headerText: 'Asesor' }, { key: 'ServicioDescripcion', dataType: 'string', headerText: 'Servicio' }, { key: 'TipoServicioDescripcion', dataType: 'string', headerText: 'Tipo de Servicio' }, { key: 'Minutos', dataType: 'number', headerText: 'Minutos' }, { key: 'FechaAbierto', dataType: 'date', headerText: 'Fecha Abierto' }, { key: 'FechaComp', dataType: 'date', headerText: 'Fecha Compromiso'}],
+                features: [
+                        { name: 'Selection', activation: true, mode: 'row', multipleSelection: false },
+                        { name: 'Paging', showPageSizeDropDown: false, showPagerRecordsLabel: false, pageSize: 5, type: 'local', prevPageLabelText: 'Anterior', nextPageLabelText: 'Siguiente', pageSizeDropDownLabel: 'Mostrar', pageSizeDropDownTrailingLabel: 'Registros' },
+                        { sortUrlKey: 'sort', sortUrlKeyAscValue: 'asc', sortUrlKeyDescValue: 'desc', columnSettings: [{ columnIndex: -1, allowSorting: true, columnKey: 'DetalleId'}], name: 'Sorting', mode: 'single'}],
+                primaryKey: 'DetalleId'
+            });
+        });
+
+        function LimpiarActividades() {
+            InicializarDataSource();
+            $('#grid1').igGrid('option', 'dataSource', actividadesDS);
+            $("#grid1").igGrid('dataBind');
+        }
+
+        $('#gdOrdenes').live('iggridselectionrowselectionchanged', function (event, args) { RowSelectionChanged(args.row.index); });
+        $('#gdOrdenes').live('iggridpagingpageindexchanged', function (event, args) { LimpiarActividades(); });
+
+        function RowSelectionChanged(row) {
+            rowSeleccionado = row;
+            var cell = $("#gdOrdenes").igGrid('cellAt', 0, row);
+            var ticket = $(cell).text();
+            $('input[name=ticketid]').val(ticket);
+
+            InicializarDataSource();
+            $('#grid1').igGrid('option', 'dataSource', actividadesDS);
+            $("#grid1").igGrid('dataBind');
+
+            $.ajaxSetup({ cache: false });
+
+            $.ajax({
+                url: '@Url.Content("~/AsesorSeguimiento/ObtenerActividadesBusqueda/")' + ticket,
+                type: 'GET',
+                success: function (result) {
+                    actividadesDS = result;
+                    $('#grid1').igGrid('option', 'dataSource', actividadesDS);
+                    $("#grid1").igGrid('dataBind');
+                }
+            });
+        }
+    </script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#lista-servicio-seguimiento")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar un ticket para su seguimiento')
+                return false;
+            } 
+        });
+    });
+
+    $(function () {
+        $("#lista-servicio-reasignar")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar un ticket para la reasignación')
+                return false;
+            }
+        });
+    });
+</script>
+</head>
+
+<div id="divResultado">
+
+    <p><h4>Resultado</h4></p>
+
+    <div>
+        @if (Model.Count() > 0)
+        {
+            @(Html.Infragistics().Grid<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>()
+            .ID("gdOrdenes")
+            .AutoGenerateColumns(true)            
+            .PrimaryKey("Ticket")           
+            .Columns(column =>
+            {
+                column.For(x => x.Ticket).DataType("long").HeaderText("No. Ticket");
+                column.For(x => x.Descripcion).HeaderText("Descripción");
+                column.For(x => x.Cliente).DataType("string").HeaderText("Cliente/Empresa");
+                column.For(x => x.Contacto).DataType("string").HeaderText("Contacto");
+                column.For(x => x.Status).DataType("string").HeaderText("Status");
+                column.For(x => x.Asesor).HeaderText("Asesor Responsable");
+                column.For(x => x.Fecha).Format("dateTime").HeaderText("Fecha Registro");
+            })
+            .Features(features =>
+            {
+                features.Paging()
+                  .PageSize(5)
+                  .PrevPageLabelText("Anterior")
+                  .NextPageLabelText("Siguiente")
+                  .PageSizeDropDownLabel("Mostrar")
+                  .PageSizeDropDownTrailingLabel("Registros")
+                  .ShowPageSizeDropDown(false)
+                  .ShowPagerRecordsLabel(false)
+                  .Type(OpType.Local);
+                features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+                features.Sorting()
+                    .Mode(SortingMode.Single)
+                    .Type(OpType.Local)
+                    .ColumnSettings(settings =>
+                    {
+                        settings.ColumnSetting().ColumnKey("Ticket").AllowSorting(true);
+                    });
+            })            
+            .DataSource(Model)
+            .DataBind()
+            .Render()
+            )    
+            
+            <p></p>
+
+            <form action=@Url.Content("~/AsesorSeguimiento/VerSeguimiento") id="formBuscar" method="post">       
+            <div>
+                <input type="hidden" id='ticketid' name='ticketid' value='' /> 
+                <input type="submit" id='lista-servicio-seguimiento' title='Ver y Agregar Actividades' name="btnSubmit" value="Seguimiento"/>
+                <input type="submit" id='lista-servicio-reasignar' title='Reasignar Ticket' name="btnSubmit" value="Reasignar"/>
+            </div>
+            </form>           
+                        
+        }
+        else
+        {
+            <p>No se encontraron registros con los criterios especificados</p>
+        }
+    </div>
+
+</div>
+
+<p></p>
+<h4>Actividades de la orden de servicio seleccionada</h4>
+<table id="grid1">
+</table>
+
+

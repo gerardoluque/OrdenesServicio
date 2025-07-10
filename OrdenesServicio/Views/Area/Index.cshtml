@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ZOE.OS.Modelo.Area>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Listado de Areas</h2>
+
+<p>
+    @Html.ActionLink("Crear nueva", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Tipo de Area
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AreaDescr)
+        </td>
+        <td>
+            @if (item.TipoArea == (short)ZOE.OS.Modelo.TiposArea.Zoe)
+            {
+                <text>Zoe</text>;
+            }
+            else
+            {
+                <text>Cliente</text>;
+            }        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.AreaId })   
+        </td>
+    </tr>
+}
+
+</table>

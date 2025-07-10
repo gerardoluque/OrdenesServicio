@@ -1,0 +1,293 @@
+﻿@using Infragistics.Web.Mvc
+@model ZOE.OrdenesServicio.Model.OrdenServicio.AgregarModificarDetalleViewModel
+
+
+@{
+    ViewBag.Title = Resources.SOResource.Seguimiento;
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>@Resources.SOResource.Seguimiento</h2>
+<p></p>
+
+<script type="text/javascript">
+    $('#gdActividades').live('iggridselectionrowselectionchanged', function (event, args) { RowSelectionChanged(args.row.index); });
+    var rowSeleccionado;
+    var statusIdCambiar;
+
+    function RowSelectionChanged(row) {
+        rowSeleccionado = row;
+        var cell = $("#gdActividades").igGrid('cellAt', 0, row);
+        var detalleId = $(cell).text();
+        $('input[name=detalleid]').val(detalleId);
+
+    }
+
+    function clearValidationSummary() {
+        $('.field-validation-error')
+               .removeClass('field-validation-error')
+                .addClass('field-validation-valid');
+
+        $('.input-validation-error')
+                .removeClass('input-validation-error')
+                 .addClass('valid');
+
+    }
+
+  //Control Tab para organizar los datos de la orden de servicio (Actividades, Comentarios, Historia)
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+
+
+  //Agregar un nuevo comentario
+    $(function () {
+        $("#dialog-form-comentario").
+            dialog({
+                autoOpen: false,
+                height: 230,
+                width: 650,
+                modal: true,
+                buttons: {
+                    "@Resources.SOResource.DialogBotonCancelar": function () {
+                        $(this).dialog("close");
+                    },
+                    "@Resources.SOResource.DialogBtnAgregarComentario": function () {
+                        var bValid = true;
+
+                        bValid = $("form[name='form-comentario']").validate().form();
+
+                        if (bValid) {
+                            var agregarComentario = 
+                            {
+                                TicketId: @ViewBag.TicketId,
+                                Comentario: $('#comentario').val()
+                            };
+
+                            $.ajax({
+                                url: '@Url.Content("~/AsesorSeguimiento/AgregarComentario")',
+                                type: 'POST',
+                                data: JSON.stringify(agregarComentario),
+                                contentType: 'application/json; charset=utf-8',
+                                success: function (data) {
+                                    if (data.success) {
+                                       $("#gdComentarios").igGrid('dataBind');
+                                       $("#labelNoComentarios").hide();
+                                    }
+                                    else {
+                                        alert("@Resources.SOResource.ErrorAgregarComentario");
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("@Resources.SOResource.ErrorAgregarComentario");
+                                }
+                            });                        
+
+                            $(this).dialog("close");
+                        }
+                    }
+                },
+
+                close: function () {
+                    clearValidationSummary();
+                    $('#comentario').val("")
+                }
+
+            });
+
+        $("#crear-comentario")
+        .button()
+        .click(function () {
+            $("#dialog-form-comentario").dialog("open");
+        });
+    });
+</script>
+
+<fieldset style="padding-top:10px;">
+    <legend>@Resources.SOResource.TicketNumero @Html.DisplayFor(model => model.OrdenServicio.Ticket)</legend>
+
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="color:Black;"><strong>@Resources.SOResource.Responsable:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Contacto.NombreCompleto)</td>
+            <td>   </td>
+            <td style="color:Black;"><strong>@Resources.SOResource.Fecha:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Fecha)</td>
+        </tr>
+        <tr>
+            <td style="color:Black;"><strong>@Resources.SOResource.AsesorResponsable:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Asesor.NombreCompleto)</td>
+            <td>   </td>
+            <td style="color:Black;"><strong>@Resources.SOResource.Status:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Status.Descr)</td>
+        </tr>
+        <tr>
+            <td style="color:Black;"><strong>@Resources.SOResource.Proyecto:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Proyecto.Descr)</td>
+        </tr>
+    </table>
+
+    <div class="display-label"  style="color:Black;"><strong>@Resources.SOResource.Descripcion:</strong></div>
+    <div class="display-field-ancho">
+        @Html.DisplayFor(model => model.OrdenServicio.Obs)
+    </div>
+</fieldset>
+
+ <p></p>
+ 
+ <div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">@Resources.SOResource.Actividades</a></li>
+    <li><a href="#tabs-2">@Resources.SOResource.Comentarios</a></li>
+    <li><a href="#tabs-3">@Resources.SOResource.Historia</a></li>
+  </ul>
+
+  <div id="tabs-1">
+     <div>
+     @if (ViewBag.TotalActividades > 0)
+     { 
+         @(Html.Infragistics().Grid<ZOE.OS.Modelo.OSDetalle>()
+           .ID("gdActividades")
+           .AutoGenerateColumns(true)
+                .PrimaryKey("DetalleId")                
+           .Columns(column =>
+           {
+               column.For(x => x.DetalleId).HeaderText("No.");
+               column.For(x => x.DetalleDescr).HeaderText(Resources.SOResource.Descripcion);
+               column.For(x => x.StatusDescripcion).HeaderText(Resources.SOResource.Status);
+               column.For(x => x.NombreAsesor).HeaderText(Resources.SOResource.Asesor);
+               column.For(x => x.ServicioDescripcion).HeaderText(Resources.SOResource.Servicio);
+               column.For(x => x.FechaAbierto).Format("dateTime").DataType("date").HeaderText(Resources.SOResource.FechaInicio);
+               column.For(x => x.FechaCerrado).Format("dateTime").DataType("date").HeaderText(Resources.SOResource.FechaTermino);
+           })
+            .Features(features =>
+            {
+                features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+                features.Paging()
+                    .ShowPageSizeDropDown(false)
+                    .ShowPagerRecordsLabel(false)
+                    .PageSize(5)
+            .PrevPageLabelText(Resources.SOResource.Anterior)
+            .NextPageLabelText(Resources.SOResource.Siguiente)
+            .PageSizeDropDownLabel(Resources.SOResource.Mostrar)
+            .PageSizeDropDownTrailingLabel(Resources.SOResource.Registros);
+                features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+                {
+                    settings.ColumnSetting().ColumnKey("DetalleId").AllowSorting(true);
+                });
+            })
+                     .DataSourceUrl(Url.Action("ObtenerActividades", "AsesorSeguimiento", new { id = Model.OrdenServicio.Ticket }))
+            .DataBind()
+            .Render()
+           )
+         <p></p>
+        <input type="hidden" id='detalleid' name='detalleid' value='' /> 
+     }
+     else
+     {
+         <p style="font-style:italic">@Resources.SOResource.lblOSSinActividades</p>
+     }
+    </div>
+  </div>
+
+  <div id="tabs-2">
+     <div style="display:inline-block; color:Black; margin-bottom:5px;">
+         @Resources.SOResource.ComentlblAgregar
+     </div>
+
+     <input type="button" id='crear-comentario' title="@Resources.SOResource.DialogAgregarComentario" style=" margin-left:20px; margin-bottom:5px;" 
+     value="@Resources.SOResource.BotonAgregar" />
+
+    @(Html.Infragistics().Grid<ZOE.OS.Modelo.OSNotaSeguimiento>()
+    .ID("gdComentarios")
+    .AutoGenerateColumns(false)
+            .PrimaryKey("OSNotaId")
+    .Columns(column =>
+    {
+        column.For(x => x.OSNotaId).HeaderText("No.").Width("60px");
+        column.For(x => x.Nota).HeaderText(Resources.SOResource.Comentario).Width("400px");
+        column.For(x => x.FechaRegistro).Format("dateTime").DataType("date").HeaderText(Resources.SOResource.Fecha).Width("120px");
+        column.For(x => x.NombreUsuario).HeaderText(Resources.SOResource.Nombre).Width("250px");
+    })
+    .Features(features =>
+    {
+        features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+        features.Paging()
+            .ShowPageSizeDropDown(false)
+            .ShowPagerRecordsLabel(false)
+            .PageSize(5)
+            .PrevPageLabelText(Resources.SOResource.Anterior)
+            .NextPageLabelText(Resources.SOResource.Siguiente)
+            .PageSizeDropDownLabel(Resources.SOResource.Mostrar)
+            .PageSizeDropDownTrailingLabel(Resources.SOResource.Registros);
+        features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+        {
+            settings.ColumnSetting().ColumnKey("FechaRegistro").AllowSorting(true);
+        });
+    })
+            .Virtualization(false).GenerateCompactJSONResponse(false).DataSourceUrl(Url.Action("ObtenerComentarios", "AsesorSeguimiento", new { id = Model.OrdenServicio.Ticket }))
+    .DataBind()
+    .Render()
+    )
+
+     @if (ViewBag.TotalComentarios == 0)
+     {
+         <p id="labelNoComentarios" style="font-style:italic">@Resources.SOResource.lblOSSinComentarios</p>
+     }
+  </div>
+
+  <div id="tabs-3">
+    <hr />
+    @(Html.Infragistics().Grid<ZOE.OrdenesServicio.Modelo.OrdenServicioHistoriaViewModel>()
+    .ID("gdHistoria")
+    .AutoGenerateColumns(false)
+    .ShowHeader(false)
+    .Columns(column =>
+    {
+        column.For(x => x.Obs);
+        column.For(x => x.CambioStatus);
+        column.For(x => x.Fecha).Format("dateTime");
+        column.For(x => x.Responsable);
+    })
+                    //.RowTemplate("<tr><td><span class='row_template'>${Fecha}</span> </td><td><span class='row_template'>Usuario: </span>  ${Responsable} </td></tr><tr><td><span class='row_template'>${CambioStatus}</span></td><td><span class='row_template'>Observaciones: </span>  ${Obs} </td> </tr>")
+                                                    .RowTemplate("<div><span class='row_template'>${Responsable}</span> <span class='row_template'> " + Resources.SOResource.ElDia + " ${Fecha}</span></div>  <div><span class='row_template'>${CambioStatus}</span></div> <div><span class='row_template'>${Obs}</span></div> <hr>")
+            .JQueryTemplating(true).DataSourceUrl(Url.Action("ObtenerHistoria", "AsesorSeguimiento", new { id = Model.OrdenServicio.Ticket }))
+    .DataBind()
+    .Render()
+    )
+  </div>
+  </div>
+
+ </div>
+
+ 
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+<div id="dialog-form-comentario" title="@Resources.SOResource.DialogAgregarComentario">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-comentario", id = "comentarioForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                   @Resources.SOResource.Comentario :
+                </td>
+                <td>
+                    <textarea class="text-box multi-line" data-val="true" data-val-required="@Resources.SOResource.DialogCampoComentReq" id="comentario" name="comentario">
+                    </textarea>
+                    
+                    <div>
+                        <span class="field-validation-valid" data-valmsg-for="comentario" data-valmsg-replace="true"></span>
+                    </div>
+                </td>
+            </tr>            
+        </table>
+    }
+
+</div>

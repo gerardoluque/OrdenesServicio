@@ -1,0 +1,26 @@
+﻿@model ZOE.OS.Modelo.Area
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Area</legend>
+
+    <div class="display-label">AreaDescr</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AreaDescr)
+    </div>
+
+    <div class="display-label">TipoArea</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TipoArea)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id=Model.AreaId }) |
+    @Html.ActionLink("Volver", "Index")
+</p>

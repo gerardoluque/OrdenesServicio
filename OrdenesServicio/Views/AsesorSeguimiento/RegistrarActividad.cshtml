@@ -1,0 +1,1148 @@
+﻿@using Infragistics.Web.Mvc
+@model ZOE.OrdenesServicio.Model.OrdenServicio.AgregarModificarDetalleViewModel
+
+@{
+    ViewBag.Title = "Seguimiento";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Seguimiento</h2>
+<p></p>
+
+<script type="text/javascript">
+    var statusSeguimiento = @Convert.ToInt16(ZOE.OS.Modelo.OrdenServicioStatus.EnSeguimiento);
+
+    $(document).ready(function() {
+       if (@Model.OrdenServicio.Status.OSStatusId > statusSeguimiento) {
+          $("#crear-actividad").attr('disabled', 'disabled');
+          $("#editar-actividad").attr('disabled', 'disabled');
+          $("#terminar-actividad").attr('disabled', 'disabled');
+          $("#pendiente-actividad").attr('disabled', 'disabled');
+          $("#cancelar-actividad").attr('disabled', 'disabled');
+       }
+    });
+
+    $('#gdActividades').live('iggridselectionrowselectionchanged', function (event, args) { RowSelectionChanged(args.row.index); });
+    var rowSeleccionado;
+    var statusIdCambiar;
+
+    function RowSelectionChanged(row) {
+        rowSeleccionado = row;
+        var cell = $("#gdActividades").igGrid('cellAt', 0, row);
+        var detalleId = $(cell).text();
+        $('input[name=detalleid]').val(detalleId);
+    }
+
+    function clearValidationSummary() {
+        $('.field-validation-error')
+               .removeClass('field-validation-error')
+                .addClass('field-validation-valid');
+
+        $('.input-validation-error')
+                .removeClass('input-validation-error')
+                 .addClass('valid');
+    }
+
+    //Forma para agregar nueva actividad
+    $(function () {
+        $("#dialog-form").
+         dialog({
+             autoOpen: false,
+             height: 560,
+             width: 710,
+             modal: true,
+             buttons: {
+                 "Cancelar": function () {
+                     $(this).dialog("close");
+                 },
+                 "Agregar Actividad": function () {
+                     var bValid = true;
+                     bValid = $("form[name='form-reg']").validate().form();
+                     if (bValid) {
+                         $("form[name='form-reg']").submit();
+                         $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+             }
+
+         });
+
+        $("#crear-actividad")
+        .button()
+        .click(function () {
+            $("#dialog-form").dialog("open");
+        });
+    });
+
+    //Forma para editar una actividad
+    $(function () {
+        $("#dialog-form-edit").
+         dialog({
+             autoOpen: false,
+             height: 560,
+             width: 710,
+             modal: true,
+             buttons: {
+                 "Cancelar": function () {
+                     $(this).dialog("close");
+                 },
+
+                 "Aceptar": function () {
+                     var bValid = true;
+                     bValid = $("form[name='form-reg-edit']").validate().form();
+                     if (bValid) {
+                         $("form[name='form-reg-edit']").submit();
+                         $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+             }
+
+         });
+
+         $("#editar-actividad")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar una actividad para modificar su información')
+                return false;
+            }
+
+            var url = '@Url.Action("ObtenerActividad")';
+            var detalleId = $('#detalleid').val();
+            var ticket = @ViewBag.TicketId;
+
+            $.ajaxSetup({ cache: false });
+
+            $.getJSON(url, { ticketId:ticket, actividadId: detalleId  }, function (data) {               
+                $('#Actividad_DetalleId').val(data.DetalleId);
+                $('#_DetalleDescr').val(data.DetalleDescr);     
+                
+                var fechaAbierto = new Date(parseInt(data.FechaAbierto.substr(6)));                
+
+                $('#dtpFechaAbiertoEdit').igEditor('option', 'value', fechaAbierto.getFullYear().toString() + '-' + 
+                                                                      (fechaAbierto.getMonth() + 1).toString() + '-' + 
+                                                                      fechaAbierto.getDate().toString() + '-' +
+                                                                      (fechaAbierto.getHours() + 1).toString() + '-' +
+                                                                      (fechaAbierto.getMinutes() + 1).toString() + '-' + 
+                                                                      (fechaAbierto.getSeconds() + 1).toString() + '-' +
+                                                                      (fechaAbierto.getMilliseconds() + 1).toString());
+
+                 if (data.FechaCerrado != null)
+                 {
+                    var fechaCerrado = new Date(parseInt(data.FechaCerrado.substr(6)));                
+
+                    $('#dtpFechaCerradoEdit').igEditor('option', 'value', fechaCerrado.getFullYear().toString() + '-' + 
+                                                                          (fechaCerrado.getMonth() + 1).toString() + '-' + 
+                                                                          fechaCerrado.getDate().toString() + '-' +
+                                                                          (fechaCerrado.getHours() + 1).toString() + '-' +
+                                                                          (fechaCerrado.getMinutes() + 1).toString() + '-' + 
+                                                                          (fechaCerrado.getSeconds() + 1).toString() + '-' +
+                                                                          (fechaCerrado.getMilliseconds() + 1).toString());
+                 }
+
+                 if (data.FechaComp != null)
+                 {
+                    var fechaComp = new Date(parseInt(data.FechaComp.substr(6)));
+                    $('#dtpFechaCompEdit').igEditor('option', 'value', fechaComp.getFullYear().toString() + '-' + 
+                                                                       (fechaComp.getMonth() + 1).toString() + '-' + 
+                                                                       fechaComp.getDate().toString() + '-' +
+                                                                       (fechaComp.getHours() + 1).toString() + '-' +
+                                                                       (fechaComp.getMinutes() + 1).toString() + '-' + 
+                                                                       (fechaComp.getSeconds() + 1).toString() + '-' +
+                                                                       (fechaComp.getMilliseconds() + 1).toString());
+                 }
+
+                $('#_minutos').val(data.Minutos);
+                $('#_prioridad').val(data.Prioridad);
+                $('#_ContactoId').val(data.ContactoId);
+                $('#_servicioid').val(data.ServicioId);
+                $('#_tiposervicioid').val(data.TipoServicioId);    
+                $('#_ViaComunicacionId').val(data.ViaComunicacionId);
+            })
+            .error(function () { alert("Ocurrio un error al tratar de obtener la información"); });
+
+            $("#dialog-form-edit").dialog("open");
+        });
+    });
+
+    //Forma para cambiar de status una actividad
+    $(function () {
+        $("#dialog-form-status").
+         dialog({
+             autoOpen: false,
+             height: 300,
+             width: 710,
+             modal: true,
+             buttons: {
+                 "Cancelar": function () {
+                     $(this).dialog("close");
+                 },
+
+                 "Aceptar": function () {
+                     var bValid = true;
+                     bValid = $("form[name='form-reg-status']").validate().form();
+
+                     if (bValid) {
+                        var cambioStatus = {
+                                Ticket: @ViewBag.TicketId,
+                                DetalleId: $('#detalleid').val(),
+                                StatusId: statusIdCambiar,
+                                Observaciones: $('#observacion').val()
+                        };
+
+                        $.ajax({
+                            url: '@Url.Content("~/AsesorSeguimiento/CambiarStatus")',
+                            type: 'POST',
+                            data: JSON.stringify(cambioStatus),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                if (data.success) {
+                                    var cell = $("#gdActividades").igGrid('cellAt', 2, rowSeleccionado);
+                                    $(cell).text(data.cambioStatusMV.StatusCambioDescr);
+                                }
+                                else {
+                                    alert("No esta permitido cambiar una actividad de " + data.cambioStatusMV.StatusActualDescr + " a " + data.cambioStatusMV.StatusCambioDescr);
+                                }
+                            },
+                            error: function () {
+                                alert("proceso cancelado !, Ocurrio un error al tratar de cambiar el estatus");
+                            }
+                        });                        
+
+                        $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+                 $('#observacion').val("")
+             }
+
+         });
+
+         $("#activa-actividad")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar una actividad para modificar su estado')
+                return false;
+            }
+
+            statusIdCambiar = 2;
+            $('#mensaje-status-cambiar').text("Establecer la actividad como Activa");
+            $("#dialog-form-status").dialog("open");
+        });
+
+         $("#terminar-actividad")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar una actividad para modificar su estado')
+                return false;
+            }
+
+            statusIdCambiar = 4;
+            $('#mensaje-status-cambiar').text("Establecer la actividad como Terminada");
+            $("#dialog-form-status").dialog("open");
+        });
+
+         $("#pendiente-actividad")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar una actividad para modificar su estado')
+                return false;
+            }
+
+            statusIdCambiar = 3;
+            $('#mensaje-status-cambiar').text("Establecer la actividad como Pendiente");
+            $("#dialog-form-status").dialog("open");
+        });
+
+         $("#cancelar-actividad")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar una actividad para modificar su estado')
+                return false;
+            }
+
+            statusIdCambiar = 5;
+            $('#mensaje-status-cambiar').text("Establecer la actividad como Cancelada");
+            $("#dialog-form-status").dialog("open");
+        });
+
+    });
+
+    //Link abre ventana de dialogo de captura de minutos propuestos
+    $("#dialogSelectMinutos").live("click", function(){
+        $("#dialog-form-minutos").dialog("open");
+    });
+
+    //Forma para cambiar cantidad de minutos propuestos
+    $(function () {
+        $("#dialog-form-minutos").
+         dialog({
+             autoOpen: false,
+             height: 160,
+             width: 400,
+             modal: true,
+             buttons: {
+                 "Cancelar": function () {
+                     $(this).dialog("close");
+                 },
+
+                 "Aceptar": function () {
+                     var bValid = true;
+
+                     bValid = $("form[name='form-cambia-minutos']").validate().form();
+
+                     if (bValid) {
+                        var cambioMinutos = 
+                        {
+                            TicketId: @ViewBag.TicketId,
+                            Minutos: $('#MinutosPropuestos').val()
+                        };
+
+                        $.ajax({
+                            url: '@Url.Content("~/AsesorSeguimiento/CambiarMinutos")',
+                            type: 'POST',
+                            data: JSON.stringify(cambioMinutos),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                if (data.success) {
+                                   $("#dialogSelectMinutos")[0].innerText = data.Minutos;
+                                }
+                                else {
+                                    alert("proceso cancelado !, Ocurrio un error al tratar de cambiar los Minutos");
+                                }
+                            },
+                            error: function (e) {
+                                alert("proceso cancelado !, Ocurrio un error al tratar de cambiar los Minutos");
+                            }
+                        });                        
+
+                        $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+                 $('#MinutosPropuestos').val("")
+             }
+
+         });
+    });
+
+
+
+    //Link abre ventana de dialogo de seleccion de proyecto
+    $("#dialogSelectProyecto").live("click", function(){
+        $("#dialog-form-proyecto").dialog("open");
+    });
+
+    //Forma para cambiar de proyecto
+    $(function () {
+        $("#dialog-form-proyecto").
+         dialog({
+             autoOpen: false,
+             height: 160,
+             width: 400,
+             modal: true,
+             buttons: {
+                 "Cancelar": function () {
+                     $(this).dialog("close");
+                 },
+
+                 "Aceptar": function () {
+                     var bValid = true;
+
+                     bValid = $("form[name='form-cambia-proyecto']").validate().form();
+
+                     if (bValid) {
+                        var cambioProyecto = 
+                        {
+                            TicketId: @ViewBag.TicketId,
+                            ProyectoId: $('#_ProyectoId').val()
+                        };
+
+                        $.ajax({
+                            url: '@Url.Content("~/AsesorSeguimiento/CambiarProyecto")',
+                            type: 'POST',
+                            data: JSON.stringify(cambioProyecto),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                if (data.success) {
+                                   $("#dialogSelectProyecto")[0].innerText = data.ProyectoDescr;
+                                }
+                                else {
+                                    alert("proceso cancelado !, Ocurrio un error al tratar de cambiar el proyecto");
+                                }
+                            },
+                            error: function (e) {
+                                alert("proceso cancelado !, Ocurrio un error al tratar de cambiar el proyecto");
+                            }
+                        });                        
+
+                        $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+                 $('#_ProyectoId').val("")
+             }
+
+         });
+    });
+
+  //Control Tab para organizar los datos de la orden de servicio (Actividades, Comentarios, Historia)
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+
+  //Agregar un nuevo comentario
+    $(function () {
+        $("#dialog-form-comentario").
+            dialog({
+                autoOpen: false,
+                height: 230,
+                width: 650,
+                modal: true,
+                buttons: {
+                    "Cancelar": function () {
+                        $(this).dialog("close");
+                    },
+                    "Agregar Comentario": function () {
+                        var bValid = true;
+
+                        bValid = $("form[name='form-comentario']").validate().form();
+
+                        if (bValid) {
+                            var agregarComentario = 
+                            {
+                                TicketId: @ViewBag.TicketId,
+                                Comentario: $('#comentario').val()
+                            };
+
+                            $.ajax({
+                                url: '@Url.Content("~/AsesorSeguimiento/AgregarComentario")',
+                                type: 'POST',
+                                data: JSON.stringify(agregarComentario),
+                                contentType: 'application/json; charset=utf-8',
+                                success: function (data) {
+                                    if (data.success) {
+                                       $("#gdComentarios").igGrid('dataBind');
+                                       $("#labelNoComentarios").hide();
+                                    }
+                                    else {
+                                        alert("proceso cancelado !, Ocurrio un error al tratar de agregar el comentario");
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("proceso cancelado !, Ocurrio un error al tratar de agregar el comentario");
+                                }
+                            });                        
+
+                            $(this).dialog("close");
+                        }
+                    }
+                },
+
+                close: function () {
+                    clearValidationSummary();
+                    $('#comentario').val("")
+                }
+
+            });
+
+        $("#crear-comentario")
+        .button()
+        .click(function () {
+            $("#dialog-form-comentario").dialog("open");
+        });
+    });
+</script>
+
+<fieldset style="padding-top:10px;">
+    <legend>Ticket Número @Html.DisplayFor(model => model.OrdenServicio.Ticket)</legend>
+
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="color:Black;"><strong>Cliente/Empresa:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Contacto.Cliente.Nombre)<span> (@Html.DisplayFor(model => model.OrdenServicio.Contacto.NombreCompleto))</span></td>
+            <td style="color:Black;"><strong>Fecha:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Fecha)</td>
+        </tr>
+        <tr>
+            <td style="color:Black;"><strong>Proyecto:</strong></td>
+            <td> 
+                @if (Model.OrdenServicio.Status.OSStatusId <= (short)ZOE.OS.Modelo.OrdenServicioStatus.EnSeguimiento)
+                {
+                    if (Model.OrdenServicio.ProyectoId.HasValue)
+                    {
+                        <a id="dialogSelectProyecto" href="#">@Html.DisplayFor(model => model.OrdenServicio.Proyecto.Descr)<span><text>(</text>@Html.DisplayFor(model => model.OrdenServicio.Proyecto.TipoProyecto.TipoProyectoDescr)<text>)</text></span></a>                    
+                    }
+                    else
+                    {
+                        <a id="dialogSelectProyecto" href="#">Seleccione Proyecto...</a>
+                    }                    
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.OrdenServicio.Proyecto.Descr)
+                }
+            </td>
+        </tr>
+
+        <tr>
+            <td style="color:Black;"><strong>Minutos:</strong></td>
+            <td> 
+                @if (Model.OrdenServicio.Status.OSStatusId <= (short)ZOE.OS.Modelo.OrdenServicioStatus.EnSeguimiento)
+                {
+                    if (Model.OrdenServicio.Minutos.HasValue)
+                    {
+                        <a id="dialogSelectMinutos" href="#">@Html.DisplayFor(model => model.OrdenServicio.Minutos)</a>                    
+                    }
+                    else
+                    {
+                        <a id="dialogSelectMinutos" href="#">Capture Minutos Propuestos...</a>
+                    }
+
+               }
+                else
+                {
+                    @Html.DisplayFor(model => model.OrdenServicio.Minutos)
+                }
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style="color:Black;"><strong>Asesor Responsable:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Asesor.NombreCompleto)</td>
+            <td style="color:Black;"><strong>Status:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.Status.Descr)</td>
+        </tr>
+
+        <tr>
+            <td style="color:Black;"><strong>Prioridad:</strong></td>
+            <td>@Html.DisplayFor(model => model.OrdenServicio.PrioridadTexto)</td>
+        </tr>
+    </table>
+
+    <div class="display-label"  style="color:Black;"><strong>Descripción:</strong></div>
+    <div class="display-field-ancho">
+        @Html.DisplayFor(model => model.OrdenServicio.Obs)
+    </div>
+@*    <div>
+       @Html.ActionLink("Reporte ticket", "TicketReporte", "OrdenServicio", new { id = Model.OrdenServicio.Ticket, asesorCreo = 1 })
+    </div>*@
+</fieldset>
+
+ <p></p>
+ 
+ <div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Actividades</a></li>
+    <li><a href="#tabs-2">Comentarios</a></li>
+    <li><a href="#tabs-3">Historia</a></li>
+  </ul>
+
+  <div id="tabs-1">
+     <div style="display:inline-block; color:Black; margin-bottom:5px;">
+         Para crear una nueva actividad presione el botón "Nueva Actividad"
+     </div>
+ 
+     <input type="button" id='crear-actividad' title="Crear una nueva Actividad" style=" margin-left:20px; margin-bottom:5px;" 
+     value="Nueva Actividad" />
+
+     <div>
+     @if (ViewBag.TotalActividades > 0)
+     { 
+         @(Html.Infragistics().Grid<ZOE.OS.Modelo.OSDetalle>()
+           .ID("gdActividades")
+           .AutoGenerateColumns(true)
+                .PrimaryKey("DetalleId")
+           .Columns(column =>
+           {
+               column.For(x => x.DetalleId).HeaderText("No.");
+               column.For(x => x.DetalleDescr).HeaderText("Descripción");
+               column.For(x => x.StatusDescripcion).HeaderText("Status");
+               column.For(x => x.NombreContacto).HeaderText("Contacto");
+               column.For(x => x.NombreAsesor).HeaderText("Asesor");
+               column.For(x => x.ServicioDescripcion).HeaderText("Tipo de Servicio");
+               column.For(x => x.TipoServicioDescripcion).HeaderText("Clasificación");
+               column.For(x => x.Minutos).HeaderText("Minutos");
+               column.For(x => x.FechaAbierto).Format("dateTime").DataType("date").HeaderText("Fecha Inicio");
+               column.For(x => x.FechaComp).Format("dateTime").DataType("date").HeaderText("Fecha Compromiso");
+           })
+            .Features(features =>
+            {
+                features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+                features.Paging()
+                    .ShowPageSizeDropDown(false)
+                    .ShowPagerRecordsLabel(false)
+                    .PageSize(5)
+                    .PrevPageLabelText("Anterior")
+                    .NextPageLabelText("Siguiente")
+                    .PageSizeDropDownLabel("Mostrar")
+                    .PageSizeDropDownTrailingLabel("Registros");
+                features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+                {
+                    settings.ColumnSetting().ColumnKey("DetalleId").AllowSorting(true);
+                });
+            })
+             .DataSourceUrl(Url.Action("ObtenerActividades", new { id = Model.OrdenServicio.Ticket }))
+            .DataBind()
+            .Render()
+           )
+         <p></p>
+        <input type="hidden" id='detalleid' name='detalleid' value='' /> 
+        <button id='editar-actividad' title='Editar la actividad seleccionada' name="editar-actividad" value="Editar">Editar</button> 
+         <text> Cambiar Estado de la Actividad Seleccionada </text>      
+        @*<button id='activa-actividad' title='Poner como Activa la actividad seleccionada' name="activa-actividad" value="Activar">Activar</button>*@
+        <button id='terminar-actividad' title='Terminar la actividad seleccionada' name="terminar-actividad" value="Terminar">Terminar</button>
+        <button id='pendiente-actividad' title='Poner como Pendiente la actividad seleccionada' name="pendiente-actividad" value="Pendiente">Pendiente</button>                                                                                                                                  
+        <button id='cancelar-actividad' title='Poner como Cancelada la actividad seleccionada' name="cancelar-actividad" value="Cancelar">Cancelar</button>          
+     }
+     else
+     {
+         <p style="font-style:italic">Esta orden de servicio aun no cuenta con actividades</p>
+     }
+    </div>
+  </div>
+
+  <div id="tabs-2">
+     <div style="display:inline-block; color:Black; margin-bottom:5px;">
+         Para agregar un nuevo comentario presione el botón "Agregar"
+     </div>
+
+     <input type="button" id='crear-comentario' title="Agregar un comentario" style=" margin-left:20px; margin-bottom:5px;" 
+     value="Agregar" />
+
+    @(Html.Infragistics().Grid<ZOE.OS.Modelo.OSNotaSeguimiento>()
+    .ID("gdComentarios")
+    .AutoGenerateColumns(false)
+            .PrimaryKey("OSNotaId")
+    .Columns(column =>
+    {
+        column.For(x => x.OSNotaId).HeaderText("No.").Width("60px");
+        column.For(x => x.Nota).HeaderText("Comentario").Width("400px");
+        column.For(x => x.FechaRegistro).Format("dateTime").DataType("date").HeaderText("Fecha").Width("120px");
+        column.For(x => x.NombreUsuario).HeaderText("Nombre").Width("250px");
+    })
+    .Features(features =>
+    {
+        features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+        features.Paging()
+            .ShowPageSizeDropDown(false)
+            .ShowPagerRecordsLabel(false)
+            .PageSize(5)
+            .PrevPageLabelText("Anterior")
+            .NextPageLabelText("Siguiente")
+            .PageSizeDropDownLabel("Mostrar")
+            .PageSizeDropDownTrailingLabel("Registros");
+        features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+        {
+            settings.ColumnSetting().ColumnKey("FechaRegistro").AllowSorting(true);
+        });
+    })
+    .Virtualization(false).GenerateCompactJSONResponse(true).DataSourceUrl(Url.Action("ObtenerComentarios", new { id = Model.OrdenServicio.Ticket }))
+    .DataBind()
+    .Render()
+    )
+
+    @if (ViewBag.TotalComentarios == 0)
+    {          
+         <p id="labelNoComentarios" style="font-style:italic">Esta orden de servicio aun no cuenta con comentarios</p>
+    }
+  </div>
+
+  <div id="tabs-3">
+    <hr />
+    @(Html.Infragistics().Grid<ZOE.OrdenesServicio.Modelo.OrdenServicioHistoriaViewModel>()
+    .ID("gdHistoria")
+    .AutoGenerateColumns(false)
+    .ShowHeader(false)
+    .Columns(column =>
+    {
+        column.For(x => x.Obs);
+        column.For(x => x.CambioStatus);
+        column.For(x => x.Fecha).Format("dateTime");
+        column.For(x => x.Responsable);
+    })
+            //.RowTemplate("<tr><td><span class='row_template'>${Fecha}</span> </td><td><span class='row_template'>Usuario: </span>  ${Responsable} </td></tr><tr><td><span class='row_template'>${CambioStatus}</span></td><td><span class='row_template'>Observaciones: </span>  ${Obs} </td> </tr>")
+                                            .RowTemplate("<div><span class='row_template'>${Responsable}</span> <span class='row_template'> el día ${Fecha}</span></div>  <div><span class='row_template'>${CambioStatus}</span></div> <div><span class='row_template'>${Obs}</span></div> <hr>")
+    .JQueryTemplating(true).DataSourceUrl(Url.Action("ObtenerHistoria", new { id = Model.OrdenServicio.Ticket }))
+    .DataBind()
+    .Render()
+    )
+  </div>
+
+ </div>
+
+ 
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div id="dialog-form" title="Agregar una Actividad">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-reg", id = "actividadForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        @Html.HiddenFor(model => model.Actividad.AsesorId)
+        @Html.HiddenFor(model => model.Actividad.AreaRespId)
+        @Html.HiddenFor(model => model.Actividad.FechaRegistro)
+        
+        <table>
+            <tr>
+                <td class="display-label-forma-captura-dialog">
+                    @Html.LabelFor(model => model.Actividad.DetalleDescr)
+                </td>
+                    <td>
+                    @Html.EditorFor(model => model.Actividad.DetalleDescr)
+                    @Html.ValidationMessageFor(model => model.Actividad.DetalleDescr)
+                </td>
+            </tr>
+            <tr>
+                <td class="display-label-forma-captura-dialog">
+                    @Html.LabelFor(model => model.Actividad.FechaAbierto)
+                </td>
+                <td>
+  @*                   @(Html.Infragistics().DatePickerFor(model => model.Actividad.FechaAbierto)
+                    .ID("dtpFechaAbierto")
+                    .Width(250)
+                    .DateDisplayFormat("dateTime")
+                    .DateInputFormat("dateTime")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Required(true)
+                    .ValidatorOptions(m => m.AnimationShow(0).AnimationHide(0).OnBlur(false).OnChange(false).OnSubmit(false).KeepFocus(ValidatorKeepFocus.Never))
+                    .Render()
+                    )*@
+
+
+                    <input id="dtpFechaAbierto" name="dtpFechaAbierto" data-val="true"  data-val-required="La fecha y hora de inicio es requerida" type="text"/>
+                    <input name="Actividad.FechaAbierto" id="dtpFechaAbierto_ig_hidden" type="hidden" />
+                    <script type="text/javascript">
+                        //value: new Date(2013, 2, 6, 18, 11, 27, 705),
+                        var currentDate = new Date()
+
+                        $(function () {
+                            $('#dtpFechaAbierto')
+                              .igEditor({ type: 3, button: 'dropdownandspin', dataMode: 'date', value: currentDate, 
+                                          width: 250, dateDisplayFormat: 'dateTime', dateInputFormat: 'dateTime', required: true,
+                                          validatorOptions: { animationShow: 0, animationHide: 0, onblur: false, onchange: false, onsubmit: false,
+                                                              keepFocus: 'never'}, _id: 'dtpFechaAbierto_ig_hidden'
+                                        });
+                        });
+                    </script>
+                    <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="dtpFechaAbierto"/>                   
+                </td>
+            </tr>
+
+            <tr>
+                <td class="display-label-forma-captura-dialog">
+                    @Html.LabelFor(model => model.Actividad.FechaCerrado)
+                </td>
+                <td>
+                     @(Html.Infragistics().DatePickerFor(model => model.Actividad.FechaCerrado)
+                    .ID("dtpFechaCerrado")
+                    .Width(250)
+                    .DateDisplayFormat("dateTime")
+                    .DateInputFormat("dateTime")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Required(false)
+                    .ValidatorOptions(m => m.AnimationShow(0).AnimationHide(0).OnBlur(false).OnChange(false).OnSubmit(false).KeepFocus(ValidatorKeepFocus.Always))
+                    .Render()
+                    )                   
+                    @*@Html.EditorFor(model => model.Actividad.FechaAbierto)*@
+                    @Html.ValidationMessageFor(model => model.Actividad.FechaCerrado)
+                </td>
+            </tr>
+
+
+            <tr>
+             <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.FechaComp)
+            </td>
+            <td >
+                     @(Html.Infragistics().DatePickerFor(model => model.Actividad.FechaComp)
+                    .ID("dtpFechaComp")
+                    .Width(250)
+                    .DateDisplayFormat("date")
+                    .DateInputFormat("date")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Required(false)
+                    .ValidatorOptions(m => m.AnimationShow(0).AnimationHide(0).OnBlur(false).OnChange(false).OnSubmit(false).KeepFocus(ValidatorKeepFocus.Always))
+                    .Render()
+                    )                   
+
+                @*@Html.EditorFor(model => model.Actividad.FechaComp)*@
+                @Html.ValidationMessageFor(model => model.Actividad.FechaComp)
+            </td>
+           </tr>
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.Minutos)
+            </td>
+            <td >
+                @Html.EditorFor(model => model.Actividad.Minutos)
+                @Html.ValidationMessageFor(model => model.Actividad.Minutos)
+            </td>
+            </tr>
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.Prioridad)
+            </td>
+            <td>
+                @Html.DropDownListFor(
+                        model => model.Actividad.Prioridad,
+                           new SelectList(
+                                  new List<Object>{ 
+                                       new { value = 1 , text = "Alta"  },
+                                       new { value = 2 , text = "Media" },
+                                       new { value = 3 , text = "Baja"}
+                                    },
+                                  "value",
+                                  "text",
+                                   Model.Actividad.Prioridad
+                        ), new { @class = "drop-down" }
+                        )
+
+               @Html.ValidationMessageFor(model => model.Actividad.Prioridad)
+            </td>
+            </tr>
+            <tr>
+             <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.ContactoId)
+            </td>
+            <td >
+                @Html.DropDownListFor(model => model.Actividad.ContactoId, (SelectList)ViewBag.ContactoId, String.Empty, new { @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.ContactoId)
+            </td>
+            </tr>
+            @*<tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.StatusId)
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.Actividad.StatusId, (SelectList)ViewBag.StatusId, String.Empty, new { @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.StatusId)
+            </td>
+            </tr>*@
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.ServicioId)
+            </td>
+            <td >
+                @Html.DropDownListFor(model => model.Actividad.ServicioId, (SelectList)ViewBag.ServicioId, String.Empty, new { @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.ServicioId)
+            </td>
+            </tr>
+            <tr>
+             <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.TipoServicioId)
+            </td>
+            <td class="colum-drop-down">
+                @Html.DropDownListFor(model => model.Actividad.TipoServicioId, (SelectList)ViewBag.TipoServicioId, String.Empty, new { @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.TipoServicioId)
+            </td>
+           </tr>
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.ViaComunicacionId)
+            </td>
+            <td class="colum-drop-down">
+                @Html.DropDownListFor(model => model.Actividad.ViaComunicacionId, (SelectList)ViewBag.ViaComunicacionId, String.Empty, new { @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.ViaComunicacionId)
+            </td>           
+            </tr>
+        </table>
+    }
+
+</div>
+
+<div id="dialog-form-edit" title="Editando Actividad">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-reg-edit", id = "actividadForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        @Html.HiddenFor(model => model.Actividad.DetalleId)
+        @Html.HiddenFor(model => model.Actividad.AsesorId)
+        @Html.HiddenFor(model => model.Actividad.AreaRespId)
+        @Html.HiddenFor(model => model.Actividad.FechaRegistro)
+        
+        <input type="hidden" id="TipoRegistro" value="editando" />
+        
+        <table>
+            <tr>
+                <td class="display-label-forma-captura-dialog">
+                    @Html.LabelFor(model => model.Actividad.DetalleDescr)
+                </td>
+                    <td>
+                    @Html.TextAreaFor(model => model.Actividad.DetalleDescr, new { @id = "_DetalleDescr", @cols = 55, @rows = 5 })
+                    @Html.ValidationMessageFor(model => model.Actividad.DetalleDescr)
+                </td>
+            </tr>
+            <tr>
+                <td class="display-label-forma-captura-dialog">
+                    @Html.LabelFor(model => model.Actividad.FechaAbierto)
+                </td>
+                <td>
+                     @(Html.Infragistics().DatePickerFor(model => model.Actividad.FechaAbierto)
+                    .ID("dtpFechaAbiertoEdit")
+                    .Width(250)
+                    .DateDisplayFormat("dateTime")
+                    .DateInputFormat("dateTime")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Required(false)
+                    .ValidatorOptions(m => m.AnimationShow(0).AnimationHide(0).OnBlur(false).OnChange(false).OnSubmit(false).KeepFocus(ValidatorKeepFocus.Always))
+                    .Render()
+                    )                   
+                    @*@Html.EditorFor(model => model.Actividad.FechaAbierto)*@
+                    @Html.ValidationMessageFor(model => model.Actividad.FechaAbierto)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="display-label-forma-captura-dialog">
+                    @Html.LabelFor(model => model.Actividad.FechaCerrado)
+                </td>
+                <td>
+                     @(Html.Infragistics().DatePickerFor(model => model.Actividad.FechaCerrado)
+                    .ID("dtpFechaCerradoEdit")
+                    .Width(250)
+                    .DateDisplayFormat("dateTime")
+                    .DateInputFormat("dateTime")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Required(false)
+                    .ValidatorOptions(m => m.AnimationShow(0).AnimationHide(0).OnBlur(false).OnChange(false).OnSubmit(false).KeepFocus(ValidatorKeepFocus.Always))
+                    .Render()
+                    )                   
+                    @*@Html.EditorFor(model => model.Actividad.FechaAbierto)*@
+                    @Html.ValidationMessageFor(model => model.Actividad.FechaCerrado)
+                </td>
+            </tr>
+
+            <tr>
+             <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.FechaComp)
+            </td>
+            <td >
+                     @(Html.Infragistics().DatePickerFor(model => model.Actividad.FechaComp)
+                    .ID("dtpFechaCompEdit")
+                    .Width(250)
+                    .DateDisplayFormat("date")
+                    .DateInputFormat("date")
+                    .ButtonType(TextEditorButtonType.DropDownAndSpin)
+                    .Required(false)
+                    .ValidatorOptions(m => m.AnimationShow(0).AnimationHide(0).OnBlur(true).OnChange(false).OnSubmit(false).KeepFocus(ValidatorKeepFocus.Always))
+                    .Render()
+                    )                   
+                @*@Html.EditorFor(model => model.Actividad.FechaComp)*@
+                @Html.ValidationMessageFor(model => model.Actividad.FechaComp)
+            </td>
+           </tr>
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.Minutos)
+            </td>
+            <td >
+                @Html.TextBoxFor(model => model.Actividad.Minutos, new { @id = "_minutos" })
+                @Html.ValidationMessageFor(model => model.Actividad.Minutos)
+            </td>
+            </tr>
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.Prioridad)
+            </td>
+            <td>
+                @Html.DropDownListFor(
+                        model => model.Actividad.Prioridad,
+                           new SelectList(
+                                  new List<Object>{ 
+                                       new { value = 1 , text = "Alta"  },
+                                       new { value = 2 , text = "Media" },
+                                       new { value = 3 , text = "Baja"}
+                                    },
+                                  "value",
+                                  "text",
+                                   Model.Actividad.Prioridad
+                        ), new { @id = "_prioridad", @class = "drop-down" }
+                        )
+
+               @Html.ValidationMessageFor(model => model.Actividad.Prioridad)
+            </td>
+            </tr>
+            <tr>
+             <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.ContactoId)
+            </td>
+            <td >
+                @Html.DropDownListFor(model => model.Actividad.ContactoId, (SelectList)ViewBag.ContactoId, String.Empty, new { @id = "_ContactoId", @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.ContactoId)
+            </td>
+            </tr>
+            @*<tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.StatusId)
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.Actividad.StatusId, (SelectList)ViewBag.StatusId, String.Empty, new { @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.StatusId)
+            </td>
+            </tr>*@
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.ServicioId)
+            </td>
+            <td >
+                @Html.DropDownListFor(model => model.Actividad.ServicioId, (SelectList)ViewBag.ServicioId, String.Empty, new { @id = "_servicioid", @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.ServicioId)
+            </td>
+            </tr>
+            <tr>
+             <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.TipoServicioId)
+            </td>
+            <td class="colum-drop-down">
+                @Html.DropDownListFor(model => model.Actividad.TipoServicioId, (SelectList)ViewBag.TipoServicioId, String.Empty, new { @id = "_tiposervicioid", @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.TipoServicioId)
+            </td>
+           </tr>
+            <tr>
+            <td class="display-label-forma-captura-dialog">
+                @Html.LabelFor(model => model.Actividad.ViaComunicacionId)
+            </td>
+            <td class="colum-drop-down">
+                @Html.DropDownListFor(model => model.Actividad.ViaComunicacionId, (SelectList)ViewBag.ViaComunicacionId, String.Empty, new { @id = "_ViaComunicacionId", @class = "drop-down" })
+                @Html.ValidationMessageFor(model => model.Actividad.ViaComunicacionId)
+            </td>           
+            </tr>
+        </table>
+    }
+
+</div>
+
+<div id="dialog-form-status" title="Cambiar Estatus">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-reg-status", id = "actividadForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        @Html.HiddenFor(model => model.Actividad.DetalleId)
+        @Html.HiddenFor(model => model.Actividad.AsesorId)
+        @Html.HiddenFor(model => model.Actividad.AreaRespId)
+        @Html.HiddenFor(model => model.Actividad.FechaRegistro)
+        
+        <div>
+           <label id="mensaje-status-cambiar"></label>
+        </div>       
+        <p></p> 
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Observaciones:
+                </td>
+                <td>
+                    <textarea class="text-box multi-line" data-val="true" data-val-required="La observacion es requerida" id="observacion" name="observacion">
+                    </textarea>
+                    <div>
+                    <span class="field-validation-valid" data-valmsg-for="observacion" data-valmsg-replace="true"></span>
+                    </div>
+                </td>
+            </tr>            
+        </table>
+    }
+
+</div>
+
+<div id="dialog-form-minutos" title="Minutos Propuestos de la Orden de Servicio">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-cambia-minutos", id = "minutosForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Minutos:
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.OrdenServicio.Minutos, new { id = "MinutosPropuestos", name = "MinutosPropuestos" })
+                    @Html.ValidationMessageFor(model => model.OrdenServicio.Minutos, "Los Minutos son requeridos")
+                </td>
+            </tr>            
+        </table>
+    }
+
+</div>
+
+<div id="dialog-form-proyecto" title="Asignar Proyecto a la Orden de Servicio">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-cambia-proyecto", id = "proyectoForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Proyecto:
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ProyectoIdSeleccionado, (SelectList)ViewBag.ProyectoId, String.Empty, new { @id = "_ProyectoId", @class = "drop-down" })
+                    @Html.ValidationMessageFor(model => model.ProyectoIdSeleccionado, "El proyecto es requerido")
+                </td>
+            </tr>            
+        </table>
+    }
+
+</div>
+
+<div id="dialog-form-comentario" title="Agregar un nuevo comentario a la Orden de Servicio">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-comentario", id = "comentarioForm" }))
+    {
+        @Html.ValidationSummary(true)
+ 
+        @Html.HiddenFor(model => model.Actividad.Ticket)
+        
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Comentario:
+                </td>
+                <td>
+                    <textarea class="text-box multi-line" data-val="true" data-val-required="Favor de captar el texto del comentario" id="comentario" name="comentario">
+                    </textarea>
+                    
+                    <div>
+                        <span class="field-validation-valid" data-valmsg-for="comentario" data-valmsg-replace="true"></span>
+                    </div>
+                </td>
+            </tr>            
+        </table>
+    }
+
+</div>

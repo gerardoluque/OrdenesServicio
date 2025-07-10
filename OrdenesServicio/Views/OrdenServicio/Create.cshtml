@@ -1,0 +1,217 @@
+﻿@using Infragistics.Web.Mvc
+
+@model ZOE.OrdenesServicio.Modelo.CrearOrdenServicioViewModel
+
+@{
+    ViewBag.Title = Resources.SOResource.CrearOrdenServicioTituloPagina;
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";    
+}
+
+<h2>@Resources.SOResource.CrearOrdenServicioTituloPagina</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.cascadingDropDown.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $('#createForm').submit(function () {
+        $('input[type=submit]', this).attr('disabled', 'disabled');
+    });
+
+    $(function () {
+        $("#orden-servicio-crear")
+        .button()
+        .click(function () {
+            var creaAsesor = false;
+            var bValid = true;
+
+//            $('input[type=submit]', this).attr('disabled', 'disabled');
+            //$('input[type="submit"]').attr('disabled', 'disabled');
+
+            bValid = $("form[name='form-create']").validate().form();
+
+            if (bValid) {
+                //$("#orden-servicio-crear").attr('disabled', 'disabled');
+
+                if ('@Model.AsesorCreando' == 'True') {
+                    creaAsesor = true;
+                }
+
+                if (creaAsesor) {
+                    if ($("#chkNotificar").attr('checked') == false) {
+                        $("#dialog-confirm").dialog("open");
+                        return false;
+                    }
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#ContacoIdSeleccionado").CascadingDropDown("#ClienteIdSeleccionado", '@Url.Content("~/OrdenServicio/ObtenerContactosPorCliente")',
+        {
+            promptText: 'Seleccione un contacto...',
+            onLoading: function () {
+                $(this).css("background-color", "#ff3");
+            },
+            onLoaded: function () {
+                $(this).animate({ backgroundColor: '#ffffff' }, 300);
+            }
+        });
+
+        $("#ProyectoIdSeleccionado").CascadingDropDown("#ClienteIdSeleccionado", '@Url.Content("~/OrdenServicio/ObtenerProyectosPorCliente")',
+        {
+            promptText: 'Seleccione un proyecto...',
+            onLoading: function () {
+                $(this).css("background-color", "#ff3");
+            },
+            onLoaded: function () {
+                $(this).animate({ backgroundColor: '#ffffff' }, 300);
+
+            }
+        });
+
+    });
+
+    $(function () {
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            dialogClass: 'no-close',
+            resizable: false,
+            height: 180,
+            width: 400,
+            modal: true,
+            buttons: {
+                "No": function () {
+                    $(this).dialog("close");
+                    $("#chkNotificar").attr('checked',false);
+                    $("form[name='form-create']").submit();
+                },
+                "Si": function () {
+                    $(this).dialog("close");
+                    $("#chkNotificar").attr('checked', true);
+                    $("form[name='form-create']").submit();
+                }
+            }
+        });
+    });
+
+
+</script>
+
+@using (Html.BeginForm("Create", "OrdenServicio", FormMethod.Post, new { name = "form-create", id = "createForm" }))
+{@Html.ValidationSummary(true)
+<fieldset>
+
+
+    @Html.HiddenFor(model => model.AsesorCreando)
+
+    @if (Model.AsesorCreando)
+    {
+        <div class="editor-label">
+            Cliente
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ClienteIdSeleccionado, Model.Clientes, "Seleccione un Cliente...")
+            @Html.ValidationMessageFor(model => model.ClienteIdSeleccionado)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrdenServicio.ContactoId, "Contacto")
+        </div>
+        <div class="editor-field">
+            <select id="ContacoIdSeleccionado" name="ContacoIdSeleccionado" data-val="true" data-val-required="El contacto es requerido">
+            </select>
+            @Html.ValidationMessageFor(model => model.ContacoIdSeleccionado)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrdenServicio.ProyectoId, "Proyecto")
+        </div>
+        <div class="editor-field">
+            <select id="ProyectoIdSeleccionado" name="ProyectoIdSeleccionado" data-val="true" data-val-required="El proyecto es requerido">
+            </select>
+            @Html.ValidationMessageFor(model => model.ProyectoIdSeleccionado)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrdenServicio.AsesorId, "Asesor")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.OrdenServicio.AsesorId, Model.Asesores, "Sin Asesor...")
+            @Html.ValidationMessageFor(model => model.OrdenServicio.AsesorId)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrdenServicio.Minutos, "Minutos")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OrdenServicio.Minutos)
+            @Html.ValidationMessageFor(model => model.OrdenServicio.Minutos)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrdenServicio.Prioridad, "Prioridad")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.OrdenServicio.Prioridad, Model.Prioridades, "Sin Prioridad...")
+            @Html.ValidationMessageFor(model => model.OrdenServicio.Prioridad)
+        </div>
+    }
+    else
+    {
+        @Html.HiddenFor(model => model.ClienteIdSeleccionado)
+        @Html.HiddenFor(model => model.ContacoIdSeleccionado)
+        @Html.HiddenFor(model => model.OrdenServicio.ContactoId)
+    }
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.OrdenServicio.Obs)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.OrdenServicio.Obs)
+        @Html.ValidationMessageFor(model => model.OrdenServicio.Obs)
+    </div>
+
+    @if (Model.AsesorCreando)
+    {
+        <p></p>
+        <div>
+            @Html.CheckBoxFor(model => model.NotificarContactoEmail, new { id = "chkNotificar" }) @Html.LabelFor(model => model.NotificarContactoEmail)
+        </div>
+    }
+    @*
+
+        <div class="editor-label">
+             @Html.LabelFor(model => model.OrdenServicio.Obs)
+         </div>
+
+         <div class="editor-field">
+         @(Html.Infragistics().TextEditorFor(model => model.OrdenServicio.Obs)
+                         .ID("Obs")
+                         .ValidatorOptions(m => m.OnBlur(true).OnSubmit(true).FormSubmit(true).KeepFocus(ValidatorKeepFocus.Once))
+                         //.Required(true)
+                         .Width(350)
+                         .Value(null)
+                         //.NullText(this.GetGlobalResourceObject("Editors", "EnterFirstName").ToString())
+                         .NullText("Capture una descripción breve de la solicitud de servicio")
+                         .TextMode(TextEditorTextMode.Multiline)
+                         .Render()
+         )
+         </div>
+    *@
+    <p></p>
+    <p>
+        <input type="submit" value="@Resources.SOResource.botonCrearOrdenServicio" id="orden-servicio-crear" name="orden-servicio-crear" />
+    </p>
+</fieldset>
+    
+<div id="dialog-confirm" title="Notificar al contacto">
+  <p>
+  <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+   La opcion de notificar por correo electronico al contacto esta desactivada.
+   Desea enviar el correo de notificación? 
+  </p>
+</div>    
+}
+

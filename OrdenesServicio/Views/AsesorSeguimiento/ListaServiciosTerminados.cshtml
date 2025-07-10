@@ -1,0 +1,95 @@
+﻿@using Infragistics.Web.Mvc
+@model IQueryable<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>
+
+@{
+    ViewBag.Title = "Lista de Servicios";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Mis Ordenes de Servicio Terminadas</h2>
+
+<script type="text/javascript">
+    var rowSeleccionado;
+
+    $(function () {
+        $("#lista-servicio-seguimiento")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar un ticket para ver el seguimiento')
+                return false;
+            }
+        });
+    });
+
+    $('#gdOrdenes').live('iggridselectionrowselectionchanged', function (event, args) { RowSelectionChanged(args.row.index); });
+
+    function RowSelectionChanged(row) {
+        rowSeleccionado = row;
+        var cell = $("#gdOrdenes").igGrid('cellAt', 0, row);
+        var ticket = $(cell).text();
+        $('input[name=ticketid]').val(ticket);
+    }
+</script>
+
+@if (Model.Count() > 0)
+{
+     @(Html.Infragistics().Grid<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>()
+       .ID("gdOrdenes")
+       .AutoGenerateColumns(false)
+       .FixedHeaders(false)
+       .PrimaryKey("Ticket")
+       .Columns(column =>
+       {
+           column.For(x => x.Ticket).DataType("long").HeaderText("No. Ticket");
+           column.For(x => x.Descripcion).HeaderText("Descripción");
+           column.For(x => x.Cliente).DataType("string").HeaderText("Cliente/Empresa");
+           column.For(x => x.Contacto).DataType("string").HeaderText("Contacto");
+           column.For(x => x.Status).DataType("string").HeaderText("Status");
+           column.For(x => x.Asesor).HeaderText("Asesor Responsable");
+           column.For(x => x.Fecha).Format("dateTime").HeaderText("Fecha Registro");
+           column.For(x => x.FechaUlitmoMovimiento).Format("dateTime").HeaderText("Fecha Ultimo Movimiento");
+       })
+        .Features(features =>
+        {
+            features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+            features.Paging()
+                .PageSize(10)
+                .ShowPageSizeDropDown(false)
+                .ShowPagerRecordsLabel(false)
+                .PrevPageLabelText("Anterior")
+                .NextPageLabelText("Siguiente")
+                .PageSizeDropDownLabel("Mostrar")
+                .PageSizeDropDownTrailingLabel("Registros");
+            features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+            {
+                settings.ColumnSetting().ColumnKey("Ticket").AllowSorting(true);
+            });            
+            features.Filtering()
+                .Mode(FilterMode.Simple)
+                .RenderFitlerButton(true)
+                .ShowEmptyConditions(false)
+                .ShowNullConditions(false)
+                .RenderFitlerButton(true)
+                .Type(OpType.Remote);
+        })
+           .DataSourceUrl(Url.Action("ListaServiciosTerminados"))
+        .DataBind()
+        .Render()
+       )
+
+   <p></p>
+   
+   using (Html.BeginForm("VerSeguimiento", "AsesorSeguimiento", FormMethod.Post))
+   {
+      <input type="hidden" id='ticketid' name='ticketid' value='' /> 
+      <input type="submit" id='lista-servicio-seguimiento' title='Ver y Agregar Actividades' name="btnSubmit" value="Seguimiento"/>
+   }
+
+}
+else
+{
+    <p>No se encontraron registros</p>
+}
+   
+        

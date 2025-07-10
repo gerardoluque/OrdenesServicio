@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ZOE.OS.Modelo.Asesor>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Listado de Asesores</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo asesor", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Paterno
+        </th>
+        <th>
+            Materno
+        </th>
+        <th>
+            Telefono
+        </th>
+        <th>
+            Movil
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Area
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Paterno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Materno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Movil)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Area.AreaDescr)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.AsesorId })  |
+            @Html.ActionLink("Cambiar contraseña", "CambiarContrasena", new { id=item.AsesorId })
+        </td>
+    </tr>
+}
+
+</table>

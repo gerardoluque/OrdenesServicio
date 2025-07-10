@@ -1,0 +1,23 @@
+﻿body {
+}
+
+tablaEvento
+{
+    border: solid 0px #e8eef4;
+    border-collapse: collapse;
+    background-color: #6699FF;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+tablaEvento td {
+    padding: 5px;
+    border: solid 0px #e8eef4;
+}
+
+tablaEvento th {
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #e8eef4;
+    border: solid 0px #e8eef4;
+}

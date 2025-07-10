@@ -1,0 +1,56 @@
+﻿@model ZOE.OS.Modelo.Cliente
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<fieldset>
+    <legend>Cliente</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nombre)
+    </div>
+
+    <div class="display-label">Rfc</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rfc)
+    </div>
+
+    <div class="display-label">Tipo</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Tipo)
+    </div>
+
+    <div class="display-label">TipoCliente</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TipoCliente)
+    </div>
+
+    <div class="display-label">Direccion</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Direccion)
+    </div>
+
+    <div class="display-label">Telefono</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Telefono)
+    </div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">Prioritario</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Prioritario)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Editar", new { id=Model.ClienteId }) |
+    @Html.ActionLink("Volver", "Index")
+</p>

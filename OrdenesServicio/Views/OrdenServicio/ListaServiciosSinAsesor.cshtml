@@ -1,0 +1,260 @@
+﻿@using Infragistics.Web.Mvc
+@model IQueryable<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>
+
+@{
+    ViewBag.Title = "Asignar Asesor";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Bandeja de Asignación</h2>
+
+<script type="text/javascript">
+    var rowSeleccionado;
+
+    $(document).ready(function() {
+      CargarAsesores();
+    });
+
+    $('#gdOrdenes').live('iggridselectionrowselectionchanged', function (event, args) { RowSelectionChanged(args.row.index); });
+
+    function RowSelectionChanged(row) {
+        rowSeleccionado = row;
+        var cell = $("#gdOrdenes").igGrid('cellAt', 0, row);
+        var ticket = $(cell).text();
+        var key = $('.selector').igGrid('option', 'primaryKey');
+        $('input[name=ticketid]').val(ticket);
+    }
+
+    function clearValidationSummary() {
+        $('.field-validation-error')
+               .removeClass('field-validation-error')
+                .addClass('field-validation-valid');
+
+        $('.input-validation-error')
+                .removeClass('input-validation-error')
+                 .addClass('valid');
+
+    }
+
+    //Forma para cambiar de proyecto
+    $(function () {
+        $("#dialog-form-asignar").
+         dialog({
+             autoOpen: false,
+             height: 210,
+             width: 500,
+             modal: true,
+             buttons: {
+                 "Cancelar": function () {
+                     $(this).dialog("close");
+                 },
+
+                 "Aceptar": function () {
+                     var bValid = true;
+
+                     bValid = $("form[name='form-asignar']").validate().form();
+
+                     if (bValid) {
+                         var asignarAsesor =
+                        {
+                            TicketId: $('input[name=ticketid]').val(),
+                            AsesorId: $('#AsesorIdSeleccionado').val(),
+                            ProyectoId: $('#ProyectoIdSeleccionado').val()
+                        };
+
+                         $.ajax({
+                             url: '@Url.Content("~/OrdenServicio/AsignarAsesor")',
+                             type: 'POST',
+                             data: JSON.stringify(asignarAsesor),
+                             contentType: 'application/json; charset=utf-8',
+                             success: function (data) {
+                                 if (data.success) {
+                                     $("#gdOrdenes").igGrid('dataBind');
+                                     rowSeleccionado = null;
+                                 }
+                                 else {
+                                     alert("proceso cancelado !, Ocurrio un error al tratar de asignar el asesor");
+                                 }
+                             },
+                             error: function (e) {
+                                 alert("proceso cancelado !, Ocurrio un error al tratar de asignar el asesor");
+                             }
+                         });
+
+                         $(this).dialog("close");
+                     }
+                 }
+             },
+
+             close: function () {
+                 clearValidationSummary();
+                 $('#ProyectoIdSeleccionado').val("");
+                 $('#AsesorIdSeleccionado').val("");
+             }
+
+         });
+    });
+
+     function CargarAsesores() {
+         var urlController = '@Url.Content("~/OrdenServicio/ObtenerAsesores/")';
+
+         $.getJSON(urlController, null, function (data) {
+             $("#AsesorIdSeleccionado").fillSelect(data, "Seleccione un asesor...");
+             $('input[name=AsesorIdSeleccionado]').val("");
+         }).fail(function () { alert("Ocurrio un error al tratar de obtener los Asesores, intente mas tarde"); });
+     }
+
+     function CargarProyectos() {
+        var urlController = '@Url.Content("~/OrdenServicio/ObtenerProyectosPorTicket/")';
+
+        $.getJSON(urlController, { ticket: $('input[name=ticketid]').val() }, function (data) {
+            $("#ProyectoIdSeleccionado").fillSelect(data,"Seleccione un proyecto...");
+            $("#ProyectoIdSeleccionado").val(null);
+        }).fail(function () { alert("Ocurrio un error al tratar de obtener los Proyectos, intente mas tarde"); });
+    }
+
+    $.fn.clearSelect = function() {
+         return this.each(function() {
+           if (this.tagName == 'SELECT')
+                this.options.length = 0;
+        });
+    }
+
+    $.fn.fillSelect = function(data, optionTextDefault) {
+         return this.clearSelect().each(function() {
+            if (this.tagName == 'SELECT') {
+                var dropdownList = this;
+
+                var o = new Option(optionTextDefault, "");
+                /// jquerify the DOM object 'o' so we can use the html method
+                $(o).html(optionTextDefault);
+                dropdownList.add(o);
+
+                $.each(data, function(index, optionData) {
+                    var option = new Option(optionData.Text, optionData.Value);
+                    
+                    if ($.browser.msie) {
+                        dropdownList.add(option);
+                    }
+                    else {
+                        dropdownList.add(option, null);
+                    }
+                });
+            }
+        });
+     }
+
+
+    $(function () {
+        $("#asignar-os")
+        .button()
+        .click(function () {
+            if (rowSeleccionado == null) {
+                alert('Favor de seleccionar un ticket para asignarlo')
+                return false;
+            }
+            else {
+                CargarProyectos();
+                $("#dialog-form-asignar").dialog("open");
+            }
+        });
+    });
+
+</script>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@if (Model.Count() > 0)
+{
+ @(Html.Infragistics().Grid<ZOE.OS.Modelo.Model.Complex.OSSeguimiento>()
+   .ID("gdOrdenes")
+   .AutoGenerateColumns(false)
+   .PrimaryKey("Ticket")
+   .FixedHeaders(false)
+   .AutoAdjustHeight(true)
+   .Columns(column =>
+       {
+           column.For(x => x.Ticket).DataType("long").HeaderText("No. Ticket");
+           column.For(x => x.Descripcion).HeaderText("Descripción");
+           column.For(x => x.Cliente).DataType("string").HeaderText("Cliente/Empresa");
+           column.For(x => x.Contacto).DataType("string").HeaderText("Contacto");
+           column.For(x => x.Status).DataType("string").HeaderText("Status");
+           column.For(x => x.Fecha).Format("dateTime").HeaderText("Fecha Registro");
+           column.For(x => x.SaldoPoliza).DataType("int").HeaderText("Saldo Poliza");
+       })
+    .Features(features =>
+        {
+            features.Selection().Activation(true).Mode(SelectionMode.Row).MultipleSelection(false);
+            features.Paging()
+               .ShowPageSizeDropDown(false)
+               .ShowPagerRecordsLabel(false)
+               .PageSize(10)
+               .PrevPageLabelText("Anterior")
+               .NextPageLabelText("Siguiente")
+               .PageSizeDropDownLabel("Mostrar")
+               .PageSizeDropDownTrailingLabel("Registros");
+            features.Sorting().Mode(SortingMode.Single).ColumnSettings(settings =>
+                {
+                    settings.ColumnSetting().ColumnKey("Ticket").AllowSorting(true);
+                });
+            features.Filtering()
+                .Mode(FilterMode.Simple)
+                .RenderFitlerButton(true)
+                .ShowEmptyConditions(false)
+                .ShowNullConditions(false)
+                .RenderFitlerButton(true)
+                .Type(OpType.Remote);
+        })
+                       .DataSourceUrl(Url.Action("ListaServiciosSinAsesor"))
+    .DataBind()
+    .Render()
+   )
+   
+   <p></p>
+
+   <button type="button" id='asignar-os' title='Asignar la Ordenes de Servicio seleccionada' name="asignar-os" value="Asignar">Asignar</button>
+   <input type="hidden" id='ticketid' name='ticketid' value='' />
+}
+else
+{
+    <p>No se encontraron registros</p>
+}  
+
+<div id="dialog-form-asignar" title="Asignar Asesor a la Orden de Servicio">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "form-asignar", id = "asignarForm" }))
+    {
+        @Html.ValidationSummary(true)
+         
+        <table>
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Proyecto:
+                </td>
+                <td>
+                    <select  id="ProyectoIdSeleccionado" name="ProyectoIdSeleccionado" data-val="true" data-val-required="El Proyecto es requerido">
+                    </select>    
+                    <div>
+                        <span class="field-validation-valid" data-valmsg-for="ProyectoIdSeleccionado" data-valmsg-replace="true"></span>        
+                    </div>
+                </td>
+            </tr>            
+
+            <tr>                
+                <td class="display-label-forma-captura-dialog">
+                    Asesor:
+                </td>
+                <td>
+                    <select id="AsesorIdSeleccionado" name="AsesorIdSeleccionado" data-val="true" data-val-required="El Aseosr es requerido">
+                    </select>   
+                    <div>
+                        <span class="field-validation-valid" data-valmsg-for="AsesorIdSeleccionado" data-valmsg-replace="true"></span>
+                    </div>         
+                </td>
+            </tr>            
+
+        </table>
+    }
+
+</div>

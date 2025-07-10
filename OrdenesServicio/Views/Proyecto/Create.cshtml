@@ -1,0 +1,94 @@
+﻿@using Infragistics.Web.Mvc
+@model ZOE.OS.Modelo.Proyecto
+
+@{
+    ViewBag.Title = "Crear Proyecto";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Crear un nuevo Proyecto</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#proyecto-crear")
+        .button()
+        .click(function () {
+        });
+    });
+</script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend> Datos del Proyecto </legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ClienteId, "Cliente")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ClienteId", String.Empty)
+            @Html.ValidationMessageFor(model => model.ClienteId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TipoProyectoId, "Tipo Proyecto")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("TipoProyectoId", String.Empty)
+            @Html.ValidationMessageFor(model => model.TipoProyectoId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Descr)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Descr)
+            @Html.ValidationMessageFor(model => model.Descr)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fecha)
+        </div>
+        <div class="editor-field">
+           @(Html.Infragistics().DatePickerFor(model => model.Fecha)
+            .ID("dtpFecha")
+            .Width(250)
+            .DateDisplayFormat("dateTime")
+            .ButtonType(TextEditorButtonType.DropDownAndSpin)
+            .Required(true)
+            .DataMode(DateTimeEditorDataMode.Date)
+            .Value(@System.DateTime.Now)
+            .ValidatorOptions(m => m.AnimationShow(0).
+                                     AnimationHide(0).
+                                     OnBlur(false).
+                                     OnChange(false).
+                                     OnSubmit(true).
+                                     KeepFocus(ValidatorKeepFocus.Always).
+                                     CustomErrorMessage("La fecha de inicio es requerida"))
+            .Render()
+            )                   
+
+            @*@Html.EditorFor(model => model.Fecha)*@
+            @Html.ValidationMessageFor(model => model.Fecha)
+        </div>
+
+@*        <div class="editor-label">
+            @Html.LabelFor(model => model.Minutos)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Minutos)
+            @Html.ValidationMessageFor(model => model.Minutos)
+        </div>*@
+        <p></p>
+        <p>
+            <input type="submit" value="Crear" id="proyecto-crear"/>
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Volver a Proyectos", "Index")
+</div>

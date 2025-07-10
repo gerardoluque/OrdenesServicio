@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ZOE.OS.Modelo.OrdenServicio>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Fecha
+        </th>
+        <th>
+            FechaComp
+        </th>
+        <th>
+            Obs
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Contacto
+        </th>
+        <th>
+            Asesor
+        </th>
+        <th>
+            AreaResponsable
+        </th>
+        <th>
+            Poliza
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaComp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Obs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status.Descr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contacto.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Asesor.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AreaResponsable.AreaDescr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Poliza.Numero)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Ticket }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Ticket }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Ticket })
+        </td>
+    </tr>
+}
+
+</table>

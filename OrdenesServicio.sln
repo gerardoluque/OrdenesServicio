@@ -1,0 +1,144 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34407.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3698205C-AB73-47CA-AB9C-4F05E78F2FAA}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		OrdenesServicio.vsmdi = OrdenesServicio.vsmdi
+		OrdenesServicio1.vsmdi = OrdenesServicio1.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{7864EBF1-C1A2-47E0-A217-7BA270E81F83}"
+	ProjectSection(SolutionItems) = preProject
+		app_offline.htm = app_offline.htm
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdenesServicio", "OrdenesServicio\OrdenesServicio.csproj", "{315C9E63-D7AD-4820-8C81-527267134B9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdenesServicio.Tests", "OrdenesServicio.Tests\OrdenesServicio.Tests.csproj", "{553D3AB1-C163-4F7D-9937-2C06546AA8CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OS.Modelo", "OS.Modelo\OS.Modelo.csproj", "{44D5289A-C523-44A2-ACBD-61626C9379C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio.Test", "Negocio.Test\Negocio.Test.csproj", "{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdmonContactos", "AdmonContactos\AdmonContactos.csproj", "{397D5395-EC1F-443E-908C-818EF7431FDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{30504329-A1A0-4102-B6B2-FDA4BF957B04}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{E22BF0B4-1BA0-4A0A-A6F8-6D6DAC2DD159}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Elmah.dll = Lib\Elmah.dll
+		Lib\Elmah.Mvc.dll = Lib\Elmah.Mvc.dll
+		Lib\EntityFramework.dll = Lib\EntityFramework.dll
+		Lib\Infragistics.Web.Mvc.dll = Lib\Infragistics.Web.Mvc.dll
+		Lib\Microsoft.ReportViewer.Common.dll = Lib\Microsoft.ReportViewer.Common.dll
+		Lib\Microsoft.ReportViewer.ProcessingObjectModel.dll = Lib\Microsoft.ReportViewer.ProcessingObjectModel.dll
+		Lib\Microsoft.ReportViewer.WebForms.dll = Lib\Microsoft.ReportViewer.WebForms.dll
+		Lib\System.Web.Helpers.dll = Lib\System.Web.Helpers.dll
+		Lib\System.Web.Mvc.dll = Lib\System.Web.Mvc.dll
+		Lib\System.Web.Razor.dll = Lib\System.Web.Razor.dll
+		Lib\System.Web.Routing.dll = Lib\System.Web.Routing.dll
+		Lib\System.Web.WebPages.Deployment.dll = Lib\System.Web.WebPages.Deployment.dll
+		Lib\System.Web.WebPages.dll = Lib\System.Web.WebPages.dll
+		Lib\System.Web.WebPages.Razor.dll = Lib\System.Web.WebPages.Razor.dll
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{315C9E63-D7AD-4820-8C81-527267134B9A}.Release|x86.ActiveCfg = Release|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{553D3AB1-C163-4F7D-9937-2C06546AA8CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{44D5289A-C523-44A2-ACBD-61626C9379C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BDABCA1A-A854-41E2-8488-5BB5F6AA1F75}.Release|x86.ActiveCfg = Release|Any CPU
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Debug|x86.ActiveCfg = Debug|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Debug|x86.Build.0 = Debug|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Release|Any CPU.ActiveCfg = Release|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Release|Mixed Platforms.Build.0 = Release|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Release|x86.ActiveCfg = Release|x86
+		{397D5395-EC1F-443E-908C-818EF7431FDD}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E51D7E4A-A268-4FEA-ACC0-FFA078572BE0}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://zoeproyectos.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AdmonContactos\\AdmonContactos.csproj
+		SccProjectName1 = AdmonContactos
+		SccLocalPath1 = AdmonContactos
+		SccProjectUniqueName2 = Negocio.Test\\Negocio.Test.csproj
+		SccProjectName2 = Negocio.Test
+		SccLocalPath2 = Negocio.Test
+		SccProjectUniqueName3 = OrdenesServicio.Tests\\OrdenesServicio.Tests.csproj
+		SccProjectName3 = OrdenesServicio.Tests
+		SccLocalPath3 = OrdenesServicio.Tests
+		SccProjectUniqueName4 = OrdenesServicio\\OrdenesServicio.csproj
+		SccProjectName4 = OrdenesServicio
+		SccLocalPath4 = OrdenesServicio
+		SccProjectUniqueName5 = OS.Modelo\\OS.Modelo.csproj
+		SccProjectName5 = OS.Modelo
+		SccLocalPath5 = OS.Modelo
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = OrdenesServicio1.vsmdi
+	EndGlobalSection
+EndGlobal

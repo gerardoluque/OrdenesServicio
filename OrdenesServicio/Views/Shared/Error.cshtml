@@ -1,0 +1,34 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<!--
+<script>
+    $(function () {
+        $("#accordion").accordion({
+            collapsible: true
+        });
+    });
+</script>
+-->
+<div id="accordion">
+    <h3>Ubicación</h3>
+    <div>
+    <h2>Lo sentimos, ha ocurrido un error en la aplicación !.
+        Ubicación: @Model.ActionName / @Model.ControllerName</h2>
+    </div>
+
+    <h3>Detalle del Error</h3>
+    <div>
+    <p>@Model.Exception.Message</p>
+    <p>@Model.Exception.Source</p>
+    <p>@Model.Exception.StackTrace</p>
+    </div>
+    
+    <div>@Model.Exception.InnerException.Message</div>
+    <div>@Model.Exception.InnerException.Source</div>
+    <div>@Model.Exception.InnerException.StackTrace</div>
+    <div>@User.Identity.Name</div>
+</div>

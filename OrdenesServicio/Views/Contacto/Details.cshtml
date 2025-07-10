@@ -1,0 +1,51 @@
+﻿@model ZOE.OS.Modelo.Contacto
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<fieldset>
+    <legend>Contacto</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nombre)
+    </div>
+
+    <div class="display-label">Paterno</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Paterno)
+    </div>
+
+    <div class="display-label">Materno</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Materno)
+    </div>
+
+    <div class="display-label">Telefono</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Telefono)
+    </div>
+
+    <div class="display-label">Movil</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Movil)
+    </div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">Cliente</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Cliente.Nombre)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ContactoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

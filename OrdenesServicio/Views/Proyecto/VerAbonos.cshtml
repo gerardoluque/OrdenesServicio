@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ZOE.OS.Modelo.ProyectoAbono>
+
+@{
+    ViewBag.Title = "VerAbonos";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>Lista de Abonos</h2>
+
+<fieldset>
+    <legend> Proyecto </legend>
+
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="color:Black;">Folio:</td>
+            <td style="color:Black; font-size:large;">@ViewBag.ProyectoId</td>
+        </tr>
+        <tr>
+            <td style="color:Black;">Cliente:</td>
+            <td>@ViewBag.Cliente</td>
+        </tr>
+        <tr>
+            <td style="color:Black;">Descripción:</td>
+            <td>@ViewBag.ProyectoDescr</td>
+        </tr>
+        <tr>
+            <td style="color:Black;">Tipo de Proyecto:</td>
+            <td>@ViewBag.TipoProyectoDescr</td>
+        </tr>
+        <tr>
+            <td style="color:Black;">Saldo Actual (minutos):</td>
+            <td>@ViewBag.Saldo</td>
+        </tr>
+    </table>
+
+</fieldset>
+
+<table>
+    <tr>
+        <th>
+            Fecha
+        </th>
+        <th>
+            Referencia
+        </th>
+@*        <th>
+            Saldo antes de Abono
+        </th>*@
+        <th>
+            Minutos Abonados
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Referencia)
+        </td>
+@*        <td>
+            @Html.DisplayFor(modelItem => item.MinutosAntesAbono)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Minutos)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditarAbono", new { id=item.AbonoId, proyectoId=item.ProyectoId })
+        </td>
+    </tr>
+}
+
+</table>
+
+<p></p>
+
+<div>
+    @Html.ActionLink("Volver a Proyectos", "Index") | @Html.ActionLink("Editar", "Edit", new { id = @ViewBag.ProyectoId }) | @Html.ActionLink("Abonar", "Abonar", new { id = @ViewBag.ProyectoId })
+</div>

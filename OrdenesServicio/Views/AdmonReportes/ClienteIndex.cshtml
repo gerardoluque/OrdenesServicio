@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+<h2>@Resources.SOResource.RepAdministracion</h2>
+
+
+<nav>
+    <ul>
+        <li><a href=@Url.Content("~/Reportes/RepPolizaDetalleServicioPorCliente.aspx?clienteId=" + ViewBag.ClienteId) target="_blank">@Resources.SOResource.RepSaldoDePoliza</a></li>
+        <li><a href=@Url.Content("~/Reportes/RepProyectosPorCliente.aspx?clienteId=" + ViewBag.ClienteId) target="_blank">@Resources.SOResource.RepActPorProyecto</a></li>
+    </ul>
+</nav>

@@ -1,0 +1,68 @@
+﻿@model ZOE.OS.Modelo.Asesor
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Asesor</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nombre)
+    </div>
+
+    <div class="display-label">Paterno</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Paterno)
+    </div>
+
+    <div class="display-label">Materno</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Materno)
+    </div>
+
+    <div class="display-label">Telefono</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Telefono)
+    </div>
+
+    <div class="display-label">Movil</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Movil)
+    </div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">Area</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Area.AreaDescr)
+    </div>
+
+    <div class="display-label">UserName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">Password</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Password)
+    </div>
+
+    <div class="display-label">ConfirmPassword</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConfirmPassword)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

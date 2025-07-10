@@ -1,0 +1,20 @@
+﻿@model ZOE.OS.Modelo.OSStatus
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>OSStatus</legend>
+
+    <div class="display-label">Descr</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descr)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.OSStatusId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
